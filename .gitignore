@@ -1,0 +1,9 @@
+# Object files
+*.obj
+
+# List files
+*.lst
+*.symbols.txt
+
+# Binary files
+*.bin
