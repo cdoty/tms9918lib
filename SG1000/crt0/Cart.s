@@ -24,9 +24,9 @@ entry:	public entry
 	ds	38
 
 _rst38:	public _rst38
-	jp		irqHandler
+	jp	irqHandler
 
 	ds	43
 
 _rst66:	public _rst66
-	jp		nmiHandler
+	jp	nmiHandler

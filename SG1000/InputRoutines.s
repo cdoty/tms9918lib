@@ -2,7 +2,7 @@ include "../../Platform/SystemDefines.inc"
 
 dseg
 
-joystick1Value:
+joystick1Value:	public joystick1Value
     ds	1
 
 joystick1LastValue:
@@ -47,24 +47,46 @@ readJoystick2_:	public readJoystick2_
 	ret
 
 readJoysticks:
-	; Read joystick 1 data
-	in		a, (Joystick1Data)
+	push	bc
+
+	; Read joystick port 1
+	in		a, (Joystick1Port)
 	
-	; Invert and isolate DPAD and button 1 inputs
+	; Invert bits
 	cpl
+
+	ld		b, a
+
+	; Shift joystick two data into place
+	srl		b
+	srl		b
+	srl		b
+	srl		b
+	srl		b
+	srl		b
+
+	; Isolate DPAD and button 1 and 2 inputs
 	and		$3F
 	
 	; Store result
 	ld		(joystick1Value), a
 
 	; Read joystick 2 data
-	in		a, (Joystick2Data)
+	in		a, (Joystick2Port)
 	
-	; Invert and isolate DPAD and button 1 inputs
+	; Invert and isolate DPAD and button 1 and 2 inputs
 	cpl
-	and		$3F
+	and		$0F
+
+	sla		a
+	sla		a
 	
+	; Combine with the data from port 1
+	or		b
+
 	; Store result
 	ld		(joystick2Value), a
+
+	pop		bc
 
 	ret
