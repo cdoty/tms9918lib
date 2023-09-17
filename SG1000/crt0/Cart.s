@@ -1,4 +1,4 @@
-include "../../../Platform/SystemDefines.inc"
+include "../../../System/SystemDefines.inc"
 
 ext	resetSound
 ext	clearRam

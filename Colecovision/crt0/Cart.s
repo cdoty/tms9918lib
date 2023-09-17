@@ -46,4 +46,4 @@ IRQ:
 NMI:
 	jp		nmiHandler
 
-include	"../../../Platform/Cartridge.inc"
+include	"../../../System/Cartridge.inc"

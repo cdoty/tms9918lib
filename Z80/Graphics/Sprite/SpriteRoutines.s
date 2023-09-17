@@ -1,5 +1,5 @@
-include "../../../../Platform/SystemDefines.inc"
-include "../../../../Platform/VRAMDefines.inc"
+include "../../../../System/SystemDefines.inc"
+include "../../../../System/VRAMDefines.inc"
 
 ext	transferToVRAM_
 ext	clearVRAMWithParameters
