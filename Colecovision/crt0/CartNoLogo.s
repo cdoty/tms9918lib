@@ -6,4 +6,3 @@ header:	public header
 	db	$AA		
 
 include "Common.inc"
-include	"../../../System/Cartridge.inc"

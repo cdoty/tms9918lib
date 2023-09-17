@@ -6,4 +6,3 @@ header:	public header
 	db	$55			
 
 include "Common.inc"
-include	"../../../System/Cartridge.inc"
