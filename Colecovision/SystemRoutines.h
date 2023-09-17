@@ -13,8 +13,5 @@ extern void enableIRQ();
 // Disable IRQ
 extern void disableIRQ();
 
-// Clear timer
-extern void clearTimer();
-
-// Wait for timer or button press
-extern void waitForTimerOrButtonPress(byte _delay, byte _button);
+// Wait for vblank
+extern void waitForVBlank();

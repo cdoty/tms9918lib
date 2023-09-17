@@ -1,26 +1,16 @@
-include "../../Platform/Defines.inc"
-
 ext	startup
 ext	nmiHandler
-
-dseg
-spriteTable:
-	ds	128
-
-spriteOrder:
-	ds	32
-
-workBuffer:
-	ds	64
+ext	spriteTable
 
 cseg
+
 header:	public header
 ;include "Boot.inc"
 include "BootNoLogo.inc"
 
 	dw	spriteTable		; Sprite table
-	dw	spriteOrder		; Sprite order table
-	dw	workBuffer		; Work buffer
+	dw	0				; Sprite order table, not used
+	dw	0				; Work buffer, not used
 	db	0				; Disable joystick 1 polling
 	db	0				; Disable joystick 2 polling
 	dw	startup			; Start of code

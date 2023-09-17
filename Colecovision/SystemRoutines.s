@@ -1,14 +1,20 @@
-include "../../Platform/Defines.inc"
+include "../../Platform/SystemDefines.inc"
+include "../../Platform/VRAMDefines.inc"
 
 ext	nmiCount
+ext	lastNMICount
 ext	writeVDPReg
+
+cseg
 
 setMode2:	public setMode2
 	ld		b, $02						; Disable external VDP interrupt, set M2 for Graphics mode 2
 	ld		c, 0
 	call	writeVDPReg
 
-	ld		b, $A2						; Enable 16K VRAM, Screen, NMI interrupt, and 16x16 sprites
+	ld		a, SpriteSize
+	or		$A0
+	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1
 	call	writeVDPReg
 
@@ -41,7 +47,9 @@ setMode2:	public setMode2
 ; Turn on screen
 ; void turnOnScreen();
 turnOnScreen_: public turnOnScreen_
-	ld		b, $E2		; Enable 16K VRAM, Screen, NMI interrupt, and 16x16 sprites
+	ld		a, SpriteSize
+	or		$E0
+	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1
 	call	writeVDPReg
 
@@ -50,20 +58,20 @@ turnOnScreen_: public turnOnScreen_
 ; Turn off screen
 ; void turnOffScreen();
 turnOffScreen_:	public turnOffScreen_
-	ld		b, $A2		; Enable 16K VRAM, NMI interrupt, and 16x16 sprites. Disable Screen
+	ld		a, SpriteSize
+	or		$A0
+	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1
 	call	writeVDPReg
 
 	ret
 
-; void clearTimer();
-clearTimer_:	public clearTimer_
-	xor	a
-	ld	(nmiCount), a
-
-	ret
-	
 enableIRQ_:	public enableIRQ_
+	; Clear nmi counts
+	xor		a
+	ld		(nmiCount), a
+	ld		(lastNMICount), a
+
 	ei
 
 	ret
@@ -73,18 +81,19 @@ disableIRQ_:	public disableIRQ_
 
 	ret
 
-; void waitForTimerOrButtonPress(byte _delay, byte _button);
-; A: _delay
-; E: _button
-waitForTimerOrButtonPress_:	public waitForTimerOrButtonPress_
+; void waitForVBlank();
+waitForVBlank_:	public waitForVBlank_
+	ld	a, (lastNMICount)
 	ld	b, a
 
-waitForTimerOrButtonPress:
+waitVBlankLoop:
 	ld	a, (nmiCount)
 	cp	b
 	
-	jr	nz, waitForTimerOrButtonPress
+	jr	z, waitVBlankLoop
 	
+	ld	(lastNMICount), a
+
 	ret
 
 resetSound:	public resetSound

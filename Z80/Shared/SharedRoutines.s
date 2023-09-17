@@ -1,6 +1,7 @@
-include "../../../Platform/Defines.inc"
+include "../../../Platform/SystemDefines.inc"
 
 cseg
+
 delay:	public delay
 	ld		bc, 0
 	
@@ -21,7 +22,7 @@ clearRam:	public clearRam
 	ld		(hl), a
 	
 	ld		de, RAMStart + 1
-	ld		bc,	RAMSize
+	ld		bc,	RAMSize - 1		; Adjust the size for the loop
 	
 	ldir
 

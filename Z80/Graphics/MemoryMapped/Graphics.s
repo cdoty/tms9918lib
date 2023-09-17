@@ -1,4 +1,4 @@
-include "../../../../Platform/Defines.inc"
+include "../../../../Platform/SystemDefines.inc"
 
 cseg
 
@@ -20,6 +20,11 @@ clearVRAM:	public clearVRAM
 	ld		hl, 0
 	ld		de, $4000
 
+; HL: VRAM start address
+; DE: Bytest to clear
+clearVRAMWithParameters:	public clearVRAMWithParameters
+	ld		a, (VDPReadBase + WriteOffset)	; Reset register write mode
+	
 	ld		a, l
 	ld		(VDPBase + WriteOffset), a
 	

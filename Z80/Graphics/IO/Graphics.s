@@ -1,4 +1,4 @@
-include "../../../../Platform/Defines.inc"
+include "../../../../Platform/SystemDefines.inc"
 
 cseg
 
@@ -20,6 +20,11 @@ clearVRAM:	public clearVRAM
 	ld		hl, 0
 	ld		de, $4000
 
+; HL: VRAM start address
+; DE: Bytest to clear
+clearVRAMWithParameters:	public clearVRAMWithParameters
+	in		a, (VDPReadBase + WriteOffset)	; Reset register write mode
+	
 	ld		a, l
 	out		(VDPBase + WriteOffset), a
 	
@@ -29,7 +34,7 @@ clearVRAM:	public clearVRAM
 	
 clearVRAMLoop:
 	xor		a
-	ld		(VDPBase), a
+	out		(VDPBase), a
 		
 	dec		de
 	ld		a, d
@@ -41,7 +46,6 @@ clearVRAMLoop:
 
 	ret
 		
-; void transferToVRAM(word _source, word _dest, word _size);
 ; HL: _source
 ; DE: _dest
 ; BC: _size
@@ -49,7 +53,7 @@ transferToVRAM_:	public transferToVRAM_
 	in		a, (VDPReadBase + WriteOffset)	; Reset register write mode
 	
 	ld		a, e
-	ld		(VDPBase + WriteOffset), a
+	out		(VDPBase + WriteOffset), a
 	
 	ld		a, d
 	or		$40
