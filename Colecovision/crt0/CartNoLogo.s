@@ -2,8 +2,8 @@ cseg
 
 header:	public header
 
-	db	$AA		; Display logo screen
-	db	$55			
+	db	$55		; Don't display logo screen
+	db	$AA		
 
 include "Common.inc"
 include	"../../../System/Cartridge.inc"
