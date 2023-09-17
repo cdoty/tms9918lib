@@ -47,69 +47,24 @@ readJoystick2_:	public readJoystick2_
 	ret
 
 readJoysticks:
-	; readJoysticks uses register b and c
-	push	bc
-
-	; Enable keypad read
-	ld		a, $FF
-	out		(KeypadReadEnable), a
-
-	; Read keypad 1 data
-	in		a, (Input1Data)
-	
-	; Invert and isolate button 2 input
-	cpl
-	and		$40
-
-	; Shift into button 2 position
-	srl		a
-	
-	; Save result
-	ld		b, a
-
-	; Read keypad 2 data
-	in		a, (Input2Data)
-	
-	; Invert and isolate button 2 input
-	cpl
-	and		$40
-
-	; Shift into button 2 position
-	srl		a
-	
-	; Save result
-	ld		c, a
-
-	; Enable joystick read
-	ld		a, $FF
-	out		(JoystickReadEnable), a
-
 	; Read joystick 1 data
-	in		a, (Input1Data)
+	in		a, (Joystick1Data)
 	
 	; Invert and isolate DPAD and button 1 inputs
 	cpl
-	and		$1F
+	and		$3F
 	
-	; Or button 2 data
-	or		b
-
 	; Store result
 	ld		(joystick1Value), a
 
 	; Read joystick 2 data
-	in		a, (Input2Data)
+	in		a, (Joystick2Data)
 	
 	; Invert and isolate DPAD and button 1 inputs
 	cpl
-	and		$1F
+	and		$3F
 	
-	; Or button 2 data
-	or		c
-
 	; Store result
 	ld		(joystick2Value), a
-
-	pop		bc
 
 	ret
