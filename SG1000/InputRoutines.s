@@ -2,7 +2,7 @@ include "../../System/SystemDefines.inc"
 
 dseg
 
-joystick1Value:	public joystick1Value
+joystick1Value:
     ds	1
 
 joystick1LastValue:
