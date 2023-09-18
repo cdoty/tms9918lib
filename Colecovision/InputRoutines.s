@@ -55,7 +55,7 @@ readJoysticks:
 	out		(KeypadReadEnable), a
 
 	; Read keypad 1 data
-	in		a, (Input1Data)
+	in		a, (Input1Port)
 	
 	; Invert and isolate button 2 input
 	cpl
@@ -68,7 +68,7 @@ readJoysticks:
 	ld		b, a
 
 	; Read keypad 2 data
-	in		a, (Input2Data)
+	in		a, (Input2Port)
 	
 	; Invert and isolate button 2 input
 	cpl
@@ -85,7 +85,7 @@ readJoysticks:
 	out		(JoystickReadEnable), a
 
 	; Read joystick 1 data
-	in		a, (Input1Data)
+	in		a, (Input1Port)
 	
 	; Invert and isolate DPAD and button 1 inputs
 	cpl
@@ -98,7 +98,7 @@ readJoysticks:
 	ld		(joystick1Value), a
 
 	; Read joystick 2 data
-	in		a, (Input2Data)
+	in		a, (Input2Port)
 	
 	; Invert and isolate DPAD and button 1 inputs
 	cpl
