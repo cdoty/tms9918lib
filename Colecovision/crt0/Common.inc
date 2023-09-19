@@ -9,35 +9,36 @@ ext	spriteTable
 	db	0				; Disable joystick 2 polling
 	dw	startup			; Start of code
 
-RST8H:
+_RST08:	public _RST08
 	reti
 	nop
 
-RST10H:
+_RST10:	public _RST10
 	reti
 	nop
 
-RST18H:
+_RST18:	public _RST18
 	reti
 	nop
 
-RST20H:
+_RST20:	public _RST20
 	reti
 	nop
 
-RST28H:
+_RST28:	public _RST28
 	reti
 	nop
 
-RST30H:
+_RST30:	public _RST30
 	reti
 	nop
 
-IRQ:
+_IRQ:	public _IRQ
 	reti
 	nop
 
-NMI:
+_NMI:	public _NMI
 	jp		nmiHandler
 
+_GAMENAME:	public _GAMENAME
 include	"../../../System/Cartridge.inc"

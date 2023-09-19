@@ -1,7 +1,6 @@
 cseg
 
-header:	public header
-
+_COLECOHEADER:	public _COLECOHEADER
 	db	$AA		; Display logo screen
 	db	$55			
 
