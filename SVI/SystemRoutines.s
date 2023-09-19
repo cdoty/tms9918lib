@@ -13,7 +13,7 @@ setMode2:	public setMode2
 	call	writeVDPReg
 
 	ld		a, SpriteSize
-	or		$A0
+	or		$80
 	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1
 	call	writeVDPReg
@@ -59,7 +59,7 @@ turnOnScreen_: public turnOnScreen_
 ; void turnOffScreen();
 turnOffScreen_:	public turnOffScreen_
 	ld		a, SpriteSize
-	or		$A0
+	or		$80
 	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1
 	call	writeVDPReg

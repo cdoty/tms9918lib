@@ -83,15 +83,15 @@ disableIRQ_:	public disableIRQ_
 
 ; void waitForVBlank();
 waitForVBlank_:	public waitForVBlank_
-	ld	a, (lastNMICount)
-	ld	b, a
+	ld		a, (lastNMICount)
+	ld		b, a
 
 waitVBlankLoop:
-	ld	a, (nmiCount)
-	cp	b
+	ld		a, (nmiCount)
+	cp		b
 	
-	jr	z, waitVBlankLoop
+	jr		z, waitVBlankLoop
 	
-	ld	(lastNMICount), a
+	ld		(lastNMICount), a
 
 	ret
