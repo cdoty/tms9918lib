@@ -1,3 +1,4 @@
+include "../../Game/GameDefines.inc"
 include "../../System/SystemDefines.inc"
 include "../../System/VRAMDefines.inc"
 

@@ -1,3 +1,4 @@
+include "../../../../Game/GameDefines.inc"
 include "../../../../System/SystemDefines.inc"
 include "../../../../System/VRAMDefines.inc"
 
@@ -59,7 +60,7 @@ updateSpriteAttributeTable:	public updateSpriteAttributeTable
 	ret
 
 selectSprite_:	public selectSprite_
-	ld	(selectedSprite), a
+	ld		(selectedSprite), a
 
 	ret
 
