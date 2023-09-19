@@ -9,24 +9,19 @@ ext	nmiHandler
 
 cseg
 
-entry:	public entry
+_SG1000ENTRY:	public _SG1000ENTRY
 	di	
 	
-	im		1
-	ld		sp, StackStart
+	im	1
 
-	call	resetSound		; Reset sound to stop noise at startup
-	call	delay			; Delay before starting
-	call	clearRam		; Clear ram
-	
-	jp		startup
+	jp	startup
 
-	ds	38
+	ds	$32
 
-_rst38:	public _rst38
+_RST38:	public _RST38
 	jp	irqHandler
 
-	ds	43
+	ds	$2B
 
-_rst66:	public _rst66
+_RST66:	public _RST66
 	jp	nmiHandler
