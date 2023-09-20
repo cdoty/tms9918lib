@@ -2,6 +2,7 @@ include "../../Game/GameDefines.inc"
 include "../../System/SystemDefines.inc"
 include "../../System/VRAMDefines.inc"
 
+ext	nmiHandler
 ext	nmiCount
 ext	lastNMICount
 ext	writeVDPReg
@@ -14,7 +15,7 @@ setMode2:	public setMode2
 	call	writeVDPReg
 
 	ld		a, SpriteSize
-	or		$A0
+	or		$80
 	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1
 	call	writeVDPReg
@@ -60,7 +61,7 @@ turnOnScreen_: public turnOnScreen_
 ; void turnOffScreen();
 turnOffScreen_:	public turnOffScreen_
 	ld		a, SpriteSize
-	or		$A0
+	or		$80
 	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1
 	call	writeVDPReg
@@ -95,4 +96,16 @@ waitVBlankLoop:
 	
 	ld		(lastNMICount), a
 
+	ret
+
+setupInterrupt:	public	setupInterrupt
+	ld		hl, nmiHandler
+	
+	ld		a, $C3
+	ld		(NMIAddress), a
+	ld		a, l
+	ld		(NMIAddress + 1), a
+	ld		a, h
+	ld		(NMIAddress + 2), a
+	
 	ret
