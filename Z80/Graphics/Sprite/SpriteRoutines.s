@@ -60,7 +60,7 @@ updateSpriteAttributeTable:	public updateSpriteAttributeTable
 	ret
 
 selectSprite_:	public selectSprite_
-	ld	(selectedSprite), a
+	ld		(selectedSprite), a
 
 	ret
 
