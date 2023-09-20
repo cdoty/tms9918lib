@@ -42,7 +42,7 @@ clearVRAMLoop:
 	
 	jr		nz, clearVRAMLoop
 	
-	ld		a, (VDPReadBase + WriteOffset)	; Acknowldge interrupt
+	ld		a, (VDPReadBase + WriteOffset)	; Acknowledge interrupt
 
 	ret
 		
@@ -71,6 +71,6 @@ transferVRAMLoop:
 	
 	jr		nz, transferVRAMLoop
 	
-	ld		a, (VDPReadBase + WriteOffset)	; Acknowldge interrupt
+	ld		a, (VDPReadBase + WriteOffset)	; Acknowledge interrupt
 
 	ret
