@@ -2,15 +2,10 @@ include "../../Game/GameDefines.inc"
 include "../../System/SystemDefines.inc"
 include "../../System/VRAMDefines.inc"
 
+ext	nmiHandler
 ext	nmiCount
 ext	lastNMICount
 ext	writeVDPReg
-ext	nmiHandler
-
-dseg
-
-oldInterrupt:
-	ds	5
 
 cseg
 
@@ -20,7 +15,7 @@ setMode2:	public setMode2
 	call	writeVDPReg
 
 	ld		a, SpriteSize
-	or		$A0
+	or		$80
 	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1
 	call	writeVDPReg
@@ -66,7 +61,7 @@ turnOnScreen_: public turnOnScreen_
 ; void turnOffScreen();
 turnOffScreen_:	public turnOffScreen_
 	ld		a, SpriteSize
-	or		$A0
+	or		$80
 	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1
 	call	writeVDPReg
@@ -101,65 +96,4 @@ waitVBlankLoop:
 	
 	ld		(lastNMICount), a
 
-	ret
-
-setupInterrupt:	public setupInterrupt
-	di								; Start of critical region
-
-	ld		de, oldInterrupt		; Get address of old int. hook saved area
-	ld		hl, InterruptHook		; Get address of interrupt entry hook
-	ld		bc, 5					; Length of hook is 5 bytes
-	ldir							; Transfer
-
-	call	getCurrentSlot			; Get my slot address
-
-	ld		(InterruptHook + 1), a	; Set slot address
-	ld		a, $F7					; 'RST 30H' inter-slot call operation code
-	ld		(InterruptHook), a		; Set new hook op-code
-	ld		hl, nmiHandler			; Get our interrupt entry point
-	ld		(InterruptHook + 2), hl	; Set new interrupt entry point
-	ld		a, $C9					; 'RET' operation code
-	ld		(InterruptHook + 4), a	; Set operation code of 'RET'
-	
-	ei								; End of critical region
-	
-	ret
-
-; Gets the current slot and enables the 2nd handle of a 32k ROM.
-getCurrentSlot:
-	push	bc
-	push	hl
-	
-	call	ReadSlotReg				; Read slot register
-
-	rrca							; Move it to bit 0,1 of A
-	rrca
-	and		$03						; Get bit 1,0
-	ld		c, a					; Set primary slot No.
-	ld		b, 0
-	ld		hl,	ExpansionTable		; See if the slot is expanded or not
-	add		hl, bc
-	ld		a, (hl)					; Set MSB if so
-	and		$80
-	or		c
-	ld		c, a
-	inc		hl						; Point to SLTTBL entry
-	inc		hl
-	inc		hl
-	inc		hl
-	ld		a, (hl)					; Get what is currently output to expansion slot register
-
-	and		$0C						; Get bits 3,2
-	or		c						; Finally form slot address
-
-	push	af
-
-	ld		h, $80					; Select ROM at $8000-BFFF
-	call	EnableSlot
-
-	pop		af
-
-	pop		hl
-	pop		bc
-	
 	ret
