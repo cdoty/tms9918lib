@@ -1,5 +1,4 @@
-include "../../../System/SystemDefines.inc"
-
+ext	startup
 ext	irqHandler
 ext	nmiHandler
 
