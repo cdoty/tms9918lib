@@ -1,8 +1,5 @@
 include "../../../System/SystemDefines.inc"
 
-ext	resetSound
-ext	clearRam
-ext	delay
 ext	startup
 ext	nmiHandler
 
@@ -47,5 +44,5 @@ _RST30:	public _RST30
 
 	ds	6
 	
-_NMI:	public _NMI
+_RST38:	public _RST38
 	jp	nmiHandler
