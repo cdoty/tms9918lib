@@ -52,8 +52,8 @@ readJoysticks:
 	out		(PSGRegisterPort), a
 	in		a, (PSGReadPort)
 	
-	; Turn off joystick input selection to read joystick 0
-	and		$AF
+	; Turn off joystick input selection, and enable pins 6 and 7, to read joystick 0.
+	and		$8F
 	out		(PSGWritePort), a
 
 	; Read joystick 1 data
