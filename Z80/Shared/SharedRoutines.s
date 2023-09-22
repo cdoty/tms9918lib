@@ -2,7 +2,7 @@ include "../../../System/SystemDefines.inc"
 
 cseg
 
-delay:	public delay
+startupDelay:	public startupDelay
 	ld		bc, 0
 	
 delayLoop:
