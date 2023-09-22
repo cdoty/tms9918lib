@@ -103,7 +103,7 @@ waitVBlankLoop:
 
 	ret
 
-setInterrupt:	public setInterrupt
+setupInterrupt:	public setupInterrupt
 	di								; Start of critical region
 
 	ld		de, oldInterrupt		; Get address of old int. hook saved area
