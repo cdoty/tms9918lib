@@ -1,9 +1,5 @@
 include "../../../System/SystemDefines.inc"
 
-ext	resetSound
-ext	clearRam
-ext	delay
-ext	startup
 ext	irqHandler
 ext	nmiHandler
 
