@@ -44,5 +44,5 @@ _RST30:	public _RST30
 
 	ds	6
 	
-_NMI:	public _NMI
+_RST38:	public _RST38
 	jp	nmiHandler
