@@ -67,6 +67,9 @@ readJoysticks:
 	ret
 
 updateKeyboard:	public updateKeyboard
+	push	af
+	push	bc
+
 	in		a, (KeyboardPort)
 	
 	; Check if it's an error condition or the watchdog timer.
@@ -76,8 +79,7 @@ updateKeyboard:	public updateKeyboard
 	cp		$95
 	jr		nc, readJoystickStatus
 
-	; Exit out
-	ret
+	jp		exitKeyboardHandler
 
 ; See if it's a joystick device ID byte. Only joystick 0 and 1 are handled.
 readJoystickStatus:
@@ -92,7 +94,7 @@ setLastDevice:
 	ld		(keyboardDevice), a
 
 	; Exit out
-	ret
+	jp		exitKeyboardHandler
 
 readJoystickStatus1:
 	; Mask out non input bits and save joystick data
@@ -130,4 +132,7 @@ clearKeyboardDevice:
 	ld		(keyboardDevice), a
 
 exitKeyboardHandler:
+	pop		bc
+	pop		af
+	
 	ret
