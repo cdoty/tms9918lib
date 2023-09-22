@@ -1,3 +1,5 @@
+include "../../../System/SystemDefines.inc"
+
 ext	startup
 ext	nmiHandler
 
