@@ -79,7 +79,7 @@ readJoystick1:
 	jr		nc, checkJoystick1Up
 
 	; Set down bit
-	ld		b, 1
+	set		0, b
 
 	jp		checkJoystick1Right
 
@@ -88,7 +88,7 @@ checkJoystick1Up:
 	jr		c, checkJoystick1Right
 
 	; Set up bit
-	ld		b, 2
+	set		1, b
 
 checkJoystick1Right:
 	; Select X axis
@@ -106,9 +106,7 @@ checkJoystick1Right:
 	jr		c, checkJoystick1Left
 
 	; Set right bit
-	ld		a, b
-	or		4
-	ld		b, a
+	set		2, b
 
 	jp		exitReadJoystick1
 
@@ -117,9 +115,7 @@ checkJoystick1Left:
 	jr		nc, exitReadJoystick1
 
 	; Set left bit
-	ld		a, b
-	or		8
-	ld		b, a
+	set		3, b
 
 exitReadJoystick1:
 	ld		a, b
@@ -145,7 +141,7 @@ readJoystick2:
 	jr		nc, checkJoystick2Up
 
 	; Set down bit
-	ld		b, 1
+	set		0, b
 
 	jp		checkJoystick2Right
 
@@ -154,7 +150,7 @@ checkJoystick2Up:
 	jr		c, checkJoystick2Right
 
 	; Set up bit
-	ld		b, 2
+	set		1, b
 
 checkJoystick2Right:
 	; Select X axis
@@ -171,9 +167,7 @@ checkJoystick2Right:
 	cp		127 + DeadZone
 	jr		c, checkJoystick2Left
 
-	ld		a, b
-	or		4
-	ld		b, a
+	set		3, b
 
 	jp		exitReadJoystick2
 
@@ -181,9 +175,7 @@ checkJoystick2Left:
 	cp		127 - DeadZone
 	jr		nc, exitReadJoystick2
 
-	ld		a, b
-	or		8
-	ld		b, a
+	set		4, b
 
 exitReadJoystick2:
 	ld		a, b
@@ -192,38 +184,30 @@ exitReadJoystick2:
 	ret
 
 readJoystickButtons:
-	ld		(joystick1Value), a
+	ld		a, (joystick1Value)
 	ld		b, a
 
-	ld		(joystick2Value), a
+	ld		a, (joystick2Value)
 	ld		c, a
 
 	in		a, (JoystickButtonPort)
-
-	; Invert and mask bits.
-	cpl
 	
-	ld		d, a
-
-	and		$01
+	bit		0, a
+	jr		nz, check2ndFireButton
 		
-	; Shift buttons into upper nibble
-	sla		a
-	sla		a
-	sla		a
-	sla		a
+	set		4, b
 
-	or		b
+check2ndFireButton:
+	bit		1, a
+	jr		nz, exitReadJoystickButtons
 
+	set		4, c
+
+exitReadJoystickButtons:
+	ld		a, b
 	ld		(joystick1Value), a
 
-	ld		a, d
-
-	; Isolate the second button
-	and		$02
-	srl		a
-	or		c
-
+	ld		a, c
 	ld		(joystick2Value), a
 
 	ret
