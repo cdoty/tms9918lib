@@ -46,7 +46,7 @@ readJoystick2_:	public readJoystick2_
 
 	ret
 
-readJoysticks:	public readJoysticks
+readJoysticks:
 	push	bc
 	push	de
 
