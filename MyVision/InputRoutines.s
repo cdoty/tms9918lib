@@ -51,6 +51,8 @@ readJoysticks:
 	; readJoysticks uses register b and c
 	push	bc
 
+	ld		b, 0
+
 	; Select Port B register
 	ld		a, 15
 	out		(PSGRegisterPort), a
@@ -66,29 +68,20 @@ readJoysticks:
 	; Read row 0
 	in		a, (PSGReadPort)
 
-	; Invert data
-	cpl
-
-	ld		c, a
-
 	; Mask out down direction
-	and		$10
-	srl		a
-	srl		a
-	srl		a
-	srl		a
+	bit		4, a
+	jr		nz, readEButton
 
-	ld		b, a
+	set		0, b
 
+readEButton:
 	; Read E button
-	ld		a, c
-	and		$40
-	srl		a
-	srl		a
+	bit		6, a
+	jr		nz, readUpButton
 
-	or		b
-	ld		b, a
+	set		4, b
 
+readUpButton:
 	; Select Port B register
 	ld		a, 15
 	out		(PSGRegisterPort), a
@@ -104,15 +97,12 @@ readJoysticks:
 	; Read row 1
 	in		a, (PSGReadPort)
 
-	; Invert and mask out up direction
-	cpl
-	and		$08
-	srl		a
-	srl		a
+	bit		3, a
+	jr		nz, readRightButton
 
-	or		b
-	ld		b, a
-	
+	set		1, b
+
+readRightButton:
 	; Select Port B register
 	ld		a, 15
 	out		(PSGRegisterPort), a
@@ -128,15 +118,12 @@ readJoysticks:
 	; Read row 2
 	in		a, (PSGReadPort)
 
-	; Invert and mask out right direction
-	cpl
-	and		$10
-	srl		a
-	srl		a
+	bit		4, a
+	jr		nz, readLeftButton
 
-	or		b
-	ld		b, a
-	
+	set		2, b
+
+readLeftButton:
 	; Select Port B register
 	ld		a, 15
 	out		(PSGRegisterPort), a
@@ -152,11 +139,13 @@ readJoysticks:
 	; Read row 3
 	in		a, (PSGReadPort)
 
-	; Invert and mask out left direction
-	cpl
-	and		$08
-	or		b
+	bit		3, a
+	jr		nz, exitReadJoystick
 
+	set		3, b
+
+exitReadJoystick:
+	ld		a, b
 	ld		(joystick1Value), a
 
 	pop		bc
