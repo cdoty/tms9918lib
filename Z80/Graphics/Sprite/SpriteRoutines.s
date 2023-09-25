@@ -19,13 +19,19 @@ selectedSprite:	public selectedSprite
 cseg
 
 clearSprites_:	public clearSprites_
-	ld		a, MaxSprites * 4 - 1
+	ld		a, MaxSprites
 	ld		c, a
 
 	ld		hl, spriteTable
 	xor		a
 
 clearSpriteLoop:
+	ld		(hl), a
+	inc		hl
+	ld		(hl), a
+	inc		hl
+	ld		(hl), a
+	inc		hl
 	ld		(hl), a
 	inc		hl
 	
