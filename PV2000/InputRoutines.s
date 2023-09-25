@@ -2,7 +2,7 @@ include "../../System/SystemDefines.inc"
 
 dseg
 
-joystick1Value:	public joystick1Value
+joystick1Value:
     ds	1
 
 joystick1LastValue:
@@ -47,7 +47,7 @@ readJoystick2_:	public readJoystick2_
 
 	ret
 
-readJoysticks:	public readJoysticks
+readJoysticks:
 	; readJoysticks uses register b and c
 	push	bc
 	push	de
