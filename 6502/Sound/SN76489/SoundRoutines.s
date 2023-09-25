@@ -3,16 +3,39 @@ include "../../../../System/SystemDefines.inc"
 cseg
 
 resetSound:	public resetSound
-	lda		#$9F
-;	sta		SoundPort
+	lda		#$22		; Set port B for input, select DDR register
+	sta		CRBPort
 
-	lda		#$BF
-;	sta		SoundPort
+	lda		#$FF		; Set PIO port bits as output, in DDR register
+	sta		PIOBPort
 
-	lda		#$DF
-;	sta		SoundPort
+	lda		#$26		; Select PIO register
+	sta		CRBPort
 
-	lda		#$FF
-;	sta		SoundPort
+	lda		#$9F		; Write to sound chip
+	sta		PIOBPort
+
+	lda		#$9F		; Write to sound chip
+	jsr		writeSoundRegister
+
+	lda		#$BF		; Write to sound chip
+	jsr		writeSoundRegister
+
+	lda		#$DF		; Write to sound chip
+	jsr		writeSoundRegister
+
+	lda		#$FF		; Write to sound chip
+	jsr		writeSoundRegister
+
+	rts
+
+writeSoundRegister:
+	sta		PIOBPort
+
+checkComplete:
+	lda		CRBPort
+	bpl		checkComplete
+
+	lda		PIOBPort
 
 	rts
