@@ -96,7 +96,7 @@ setSpritePosition_:	public setSpritePosition_
 
 	ret
 
-; A: Sprite Tile
+; A: Sprite tile
 setSpriteTile_:	public setSpriteTile_
 	push	bc
 	push	de
@@ -127,7 +127,7 @@ setSpriteTile_:	public setSpriteTile_
 
 	ret
 
-; A: Sprite Color
+; A: Sprite color
 setSpriteColor_:	public setSpriteColor_
 	push	bc
 	push	de
@@ -158,6 +158,8 @@ setSpriteColor_:	public setSpriteColor_
 
 	ret
 
+; A: Sprite tile
+; E: Sprite color
 setSpriteTileAndColor_:	public setSpriteTileAndColor_
 	push	bc
 	push	de
