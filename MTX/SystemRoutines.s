@@ -106,9 +106,6 @@ setupInterrupt:	public setupInterrupt
 	ld		a, 1
 	out		(CTCChannel1), a
 	
-	ld		a, HIGH(InterruptTable)			; Load interrupt vector table address
-	ld		i, a							; Upper byte is loaded into i
-
 	ld		hl, nmiHandler					; Set VBI handler
 	ld		(InterruptTable), hl
 
@@ -131,6 +128,9 @@ resetCTCLoop:
 	
 	djnz	resetCTCLoop
 	
+	ld		a, HIGH(InterruptTable)			; Load interrupt vector table address
+	ld		i, a							; Upper byte is loaded into i
+
 	ld		a, LOW(InterruptTable)			; Load interrupt vector table address
 	out		(CTCChannel1), a
 
