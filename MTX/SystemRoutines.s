@@ -131,4 +131,7 @@ resetCTCLoop:
 	
 	djnz	resetCTCLoop
 	
+	ld		a, LOW(InterruptTable)			; Load interrupt vector table address
+	out		(CTCChannel1), a
+
 	ret
