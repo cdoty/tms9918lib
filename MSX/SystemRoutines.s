@@ -103,6 +103,26 @@ waitVBlankLoop:
 
 	ret
 
+; Change interrupt, used for cassette and disk games
+changeInterrupt:	public changeInterrupt
+	di								; Start of critical region
+
+	ld		de, oldInterrupt		; Get address of old int. hook saved area
+	ld		hl, InterruptHook		; Get address of interrupt entry hook
+	ld		bc, 5					; Length of hook is 5 bytes
+	ldir							; Transfer
+
+	ld		a, $C3					; Set new hook code
+	ld		(InterruptHook), a		; 
+	ld		hl, nmiHandler			; Get our interrupt entry point
+	ld		(InterruptHook + 1), hl	; Set new interrupt entry point
+	ld		a, $C9					; 'RET' operation code
+	ld		(InterruptHook + 3), a	; set operation code of 'RET'
+	
+	ei								; End of critical region
+	
+	ret
+
 setupInterrupt:	public setupInterrupt
 	di								; Start of critical region
 
@@ -132,9 +152,9 @@ getCurrentSlot:
 	
 	call	ReadSlotReg				; Read slot register
 
-	rrca							; Move it to bit 0,1 of A
+	rrca							; Move it to bit 0 and 1 of A
 	rrca
-	and		$03						; Get bit 1,0
+	and		$03						; Get bit 0 and 1
 	ld		c, a					; Set primary slot No.
 	ld		b, 0
 	ld		hl,	ExpansionTable		; See if the slot is expanded or not
