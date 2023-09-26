@@ -40,5 +40,5 @@ _IRQ:	public _IRQ
 _NMI:	public _NMI
 	jp		nmiHandler
 
-_GAMENAME:	public _GAMENAME
-include	"../../../System/Cartridge.inc"
+_GAMETITLE:	public _GAMETITLE
+include	"../../../System/Title.inc"
