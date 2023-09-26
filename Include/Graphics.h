@@ -5,7 +5,7 @@ extern void turnOnScreen();
 extern void turnOffScreen();
 
 // Transfer to VRAM
-extern void tranferToVRAM(ptr<byte> _source, word _dest, word _size);
+extern void transferToVRAM(ptr<byte> _source, word _dest, word _size);
 
 // Wait for vblank
 extern void waitForVBlank();
