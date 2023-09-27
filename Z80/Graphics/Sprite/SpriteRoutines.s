@@ -19,19 +19,13 @@ selectedSprite:	public selectedSprite
 cseg
 
 clearSprites_:	public clearSprites_
-	ld		a, MaxSprites
+	ld		a, MaxSprites * 4 - 1
 	ld		c, a
 
 	ld		hl, spriteTable
 	xor		a
 
 clearSpriteLoop:
-	ld		(hl), a
-	inc		hl
-	ld		(hl), a
-	inc		hl
-	ld		(hl), a
-	inc		hl
 	ld		(hl), a
 	inc		hl
 	
@@ -102,7 +96,7 @@ setSpritePosition_:	public setSpritePosition_
 
 	ret
 
-; A: Sprite tile
+; A: Sprite Tile
 setSpriteTile_:	public setSpriteTile_
 	push	bc
 	push	de
@@ -133,7 +127,7 @@ setSpriteTile_:	public setSpriteTile_
 
 	ret
 
-; A: Sprite color
+; A: Sprite Color
 setSpriteColor_:	public setSpriteColor_
 	push	bc
 	push	de
@@ -164,8 +158,6 @@ setSpriteColor_:	public setSpriteColor_
 
 	ret
 
-; A: Sprite tile
-; E: Sprite color
 setSpriteTileAndColor_:	public setSpriteTileAndColor_
 	push	bc
 	push	de

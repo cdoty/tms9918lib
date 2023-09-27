@@ -15,37 +15,37 @@ oldInterrupt:
 cseg
 
 setMode2:	public setMode2
-	ld		b, $02							; Disable external VDP interrupt, set M2 for Graphics mode 2
+	ld		b, $02						; Disable external VDP interrupt, set M2 for Graphics mode 2
 	ld		c, 0
 	call	writeVDPReg
 
 	ld		a, SpriteSize
 	or		$A0
-	ld		b, a							; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
+	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1
 	call	writeVDPReg
 
-	ld		b, Screen1VRAM / $400			; Set Name Table location.
+	ld		b, Screen1VRAM / $400		; Set Name Table location.
 	ld		c, 2
 	call	writeVDPReg
 
-	ld		b, (Color1VRAM / $40) OR $7F	; Set Color Table location.
+	ld		b, Color1VRAM / $40	+ $7F	; Set Color Table location.
 	ld		c, 3
 	call	writeVDPReg
 
-	ld		b, (Tile1VRAM / $800) OR 3		; Set Pattern Table location.
+	ld		b, Tile1VRAM / $800 + 3		; Set Pattern Table location.
 	ld		c, 4
 	call	writeVDPReg
 
-	ld		b, SpriteAttributes / $80		; Set Sprite Attribute Table location.
+	ld		b, SpriteAttributes / $80	; Set Sprite Attribute Table location.
 	ld		c, 5
 	call	writeVDPReg
 
-	ld		b, SpritePattern / $800			; Set Sprite Pattern Table location.
+	ld		b, SpritePattern / $800		; Set Sprite Pattern Table location.
 	ld		c, 6
 	call	writeVDPReg
 
-	ld		b, $00							; Set background color to black
+	ld		b, $00						; Set background color to black
 	ld		c, 7
 	call	writeVDPReg
 
@@ -103,26 +103,6 @@ waitVBlankLoop:
 
 	ret
 
-; Change interrupt, used for cassette and disk games
-changeInterrupt:	public changeInterrupt
-	di								; Start of critical region
-
-	ld		de, oldInterrupt		; Get address of old int. hook saved area
-	ld		hl, InterruptHook		; Get address of interrupt entry hook
-	ld		bc, 5					; Length of hook is 5 bytes
-	ldir							; Transfer
-
-	ld		a, $C3					; Set new hook code
-	ld		(InterruptHook), a		; 
-	ld		hl, nmiHandler			; Get our interrupt entry point
-	ld		(InterruptHook + 1), hl	; Set new interrupt entry point
-	ld		a, $C9					; 'RET' operation code
-	ld		(InterruptHook + 3), a	; set operation code of 'RET'
-	
-	ei								; End of critical region
-	
-	ret
-
 setupInterrupt:	public setupInterrupt
 	di								; Start of critical region
 
@@ -152,9 +132,9 @@ getCurrentSlot:
 	
 	call	ReadSlotReg				; Read slot register
 
-	rrca							; Move it to bit 0 and 1 of A
+	rrca							; Move it to bit 0,1 of A
 	rrca
-	and		$03						; Get bit 0 and 1
+	and		$03						; Get bit 1,0
 	ld		c, a					; Set primary slot No.
 	ld		b, 0
 	ld		hl,	ExpansionTable		; See if the slot is expanded or not
