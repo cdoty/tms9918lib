@@ -24,11 +24,11 @@ setMode2:	public setMode2
 	ld		c, 2
 	call	writeVDPReg
 
-	ld		b, Color1VRAM / $40 OR $7F	; Set Color Table location.
+	ld		b, Color1VRAM / $40	+ $7F	; Set Color Table location.
 	ld		c, 3
 	call	writeVDPReg
 
-	ld		b, Tile1VRAM / $800 OR 3	; Set Pattern Table location.
+	ld		b, Tile1VRAM / $800 + 3		; Set Pattern Table location.
 	ld		c, 4
 	call	writeVDPReg
 

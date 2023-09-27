@@ -100,24 +100,26 @@ waitVBlankLoop:
 	ret
 
 setupInterrupt:	public setupInterrupt
-	ld		a, $C5					; Set channel control register
+	ld		hl, nmiHandler			; Set VBI handler
+	ld		(InterruptTable), hl
+
+	ld		hl, defaultHandler		; Set rest of the interrupts to the default handler
+	ld		(InterruptTable + 2), hl
+	ld		(InterruptTable + 4), hl
+	ld		(InterruptTable + 6), hl
+	
+	ld		a, $C5		; Set channel control register
 	out		(CTCChannel1), a
 	
 	ld		a, 1
 	out		(CTCChannel1), a
 	
-	ld		hl, nmiHandler					; Set VBI handler
-	ld		(InterruptTable), hl
-
-	ld		hl, defaultHandler				; Set rest of the interrupts to the default handler
-	ld		(InterruptTable + 2), hl
-	ld		(InterruptTable + 4), hl
-	ld		(InterruptTable + 6), hl
+	ei
 	
 	ret
 	
 resetCTC: public resetCTC
-	ld		b, 2			; Reset CTC
+	ld		b, 2		; Reset CTC
 	ld		a, 3
 
 resetCTCLoop:
@@ -128,10 +130,10 @@ resetCTCLoop:
 	
 	djnz	resetCTCLoop
 	
-	ld		a, HIGH(InterruptTable)			; Load interrupt vector table address
-	ld		i, a							; Upper byte is loaded into i
+	ld		a, $FF		; Load interrupt vector table address
+	ld		i, a		; Upper byte is loaded from i
 
-	ld		a, LOW(InterruptTable)			; Load interrupt vector table address
+	ld		a, $F0
 	out		(CTCChannel1), a
-
+	
 	ret
