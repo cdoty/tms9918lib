@@ -1,5 +1,10 @@
 include "../../../System/SystemDefines.inc"
 
+dseg
+
+expandedRAMEnabled:	public	expandedRAMEnabled
+	ds	1
+
 cseg
 
 startupDelay:	public startupDelay
