@@ -5,6 +5,7 @@ include "../../System/VRAMDefines.inc"
 ext	nmiCount
 ext	lastNMICount
 ext	writeVDPReg
+ext	nmiHandler
 
 cseg
 
@@ -94,5 +95,16 @@ waitVBlankLoop:
 	jr		z, waitVBlankLoop
 	
 	ld		(lastNMICount), a
+
+	ret
+
+; Use for ddp target.
+setupInterrupt:	public setupInterrupt
+	; Set NMI handler location
+	ld		a, $C3
+	ld		($66), a
+
+	ld		hl, nmiHandler
+	ld		($67), hl
 
 	ret
