@@ -10,37 +10,37 @@ ext	writeVDPReg
 cseg
 
 setMode2:	public setMode2
-	ld		b, $02							; Disable external VDP interrupt, set M2 for Graphics mode 2
+	ld		b, $02						; Disable external VDP interrupt, set M2 for Graphics mode 2
 	ld		c, 0
 	call	writeVDPReg
 
 	ld		a, SpriteSize
 	or		$80
-	ld		b, a							; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
+	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1
 	call	writeVDPReg
 
-	ld		b, Screen1VRAM / $400			; Set Name Table location.
+	ld		b, Screen1VRAM / $400		; Set Name Table location.
 	ld		c, 2
 	call	writeVDPReg
 
-	ld		b, (Color1VRAM / $40) OR $7F	; Set Color Table location.
+	ld		b, Color1VRAM / $40 OR $7F	; Set Color Table location.
 	ld		c, 3
 	call	writeVDPReg
 
-	ld		b, (Tile1VRAM / $800) OR 3		; Set Pattern Table location.
+	ld		b, Tile1VRAM / $800 OR 3	; Set Pattern Table location.
 	ld		c, 4
 	call	writeVDPReg
 
-	ld		b, SpriteAttributes / $80		; Set Sprite Attribute Table location.
+	ld		b, SpriteAttributes / $80	; Set Sprite Attribute Table location.
 	ld		c, 5
 	call	writeVDPReg
 
-	ld		b, SpritePattern / $800			; Set Sprite Pattern Table location.
+	ld		b, SpritePattern / $800		; Set Sprite Pattern Table location.
 	ld		c, 6
 	call	writeVDPReg
 
-	ld		b, $00							; Set background color to black
+	ld		b, $00						; Set background color to black
 	ld		c, 7
 	call	writeVDPReg
 
