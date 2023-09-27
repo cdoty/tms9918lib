@@ -1,16 +1,8 @@
 include "../../System/SystemDefines.inc"
 
-dseg
-
-expandedRAMEnabled:	public	expandedRAMEnabled
-	ds	1
+ext	expandedRAMEnabled
 
 cseg
-
-isExpandedRAMEnabled_:	public isExpandedRAMEnabled_
-	ld		a, (expandedRAMEnabled)
-
-	ret
 
 ; Sets expandedRAMEnabled
 ; 0: No memory expansion 
