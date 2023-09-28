@@ -13,8 +13,9 @@ spriteTable:	public spriteTable
 updateSpriteAttributes:	public updateSpriteAttributes
 	ds	1
 
-selectedSprite:	public selectedSprite
-	ds	1
+; Stores hl of the selected sprite
+selectedSprite:	public selectedSprite	
+	ds	2
 
 cseg
 
@@ -66,134 +67,90 @@ updateSpriteAttributeTable:	public updateSpriteAttributeTable
 	ret
 
 selectSprite_:	public selectSprite_
-	ld		(selectedSprite), a
+	; Multiply selectedSprite by 4.
+	push	bc
+	push	hl
 
+	sla		a
+	sla		a
+
+	ld		c, a
+	ld		b, 0
+
+	ld		hl, spriteTable
+	add		hl, bc
+
+	ld		(selectedSprite), hl
+
+	pop		hl
+	pop		bc
+	
 	ret
 
 ; A: Sprite X
 ; E: Sprite Y
 setSpritePosition_:	public setSpritePosition_
-	push	bc
-	push	de
 	push	hl
 
-	ld		d, a
-
-	ld		a, (selectedSprite)
-
-	; Multiply selectedSprite by 4.
-	sla		a
-	sla		a
-
-	ld		c, a
-	ld		b, 0
-
-	ld		hl, spriteTable
-	add		hl, bc
+	ld		hl, (selectedSprite)
 
 	ld		(hl), e
 	inc		hl
 	
-	ld		(hl), d
+	ld		(hl), a
 
 	pop		hl
-	pop		de
-	pop		bc
 
 	ret
 
 ; A: Sprite tile
 setSpriteTile_:	public setSpriteTile_
-	push	bc
-	push	de
 	push	hl
 
-	ld		d, a
-
-	ld		a, (selectedSprite)
-
-	; Multiply selectedSprite by 4.
-	sla		a
-	sla		a
+	ld		hl, (selectedSprite)
 
 	; Skip x and y position
-	add		a, 2
+	inc		hl
+	inc		hl
 
-	ld		c, a
-	ld		b, 0
-
-	ld		hl, spriteTable
-	add		hl, bc
-
-	ld		(hl), d
+	ld		(hl), a
 
 	pop		hl
-	pop		de
-	pop		bc
 
 	ret
 
 ; A: Sprite color
 setSpriteColor_:	public setSpriteColor_
-	push	bc
-	push	de
 	push	hl
 
-	ld		d, a
-
-	ld		a, (selectedSprite)
-
-	; Multiply selectedSprite by 4.
-	sla		a
-	sla		a
+	ld		hl, (selectedSprite)
 
 	; Skip x and y position and tile
-	add		a, 3
+	inc		hl
+	inc		hl
+	inc		hl
 
-	ld		c, a
-	ld		b, 0
-
-	ld		hl, spriteTable
-	add		hl, bc
-
-	ld		(hl), d
+	ld		(hl), a
 
 	pop		hl
-	pop		de
-	pop		bc
 
 	ret
 
 ; A: Sprite tile
 ; E: Sprite color
 setSpriteTileAndColor_:	public setSpriteTileAndColor_
-	push	bc
-	push	de
 	push	hl
 
-	ld		d, a
-
-	ld		a, (selectedSprite)
-
-	; Multiply selectedSprite by 4.
-	sla		a
-	sla		a
+	ld		hl, (selectedSprite)
 
 	; Skip x and y position
-	add		a, 2
+	inc		hl
+	inc		hl
 
-	ld		c, a
-	ld		b, 0
-
-	ld		hl, spriteTable
-	add		hl, bc
-
-	ld		(hl), d
+	ld		(hl), a
 	inc		hl
 	ld		(hl), e
 
 	pop		hl
-	pop		de
-	pop		bc
 
 	ret
