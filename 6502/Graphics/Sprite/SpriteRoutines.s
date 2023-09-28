@@ -121,8 +121,6 @@ selectSprite_:	public selectSprite_
 setSpritePosition_:	public setSpritePosition_
 	ldy		selectedSprite
 	
-	tay
-
 	lda		setSpritePosition_@Param1
 	sta		spriteTable, y
 
@@ -135,17 +133,11 @@ setSpritePosition_:	public setSpritePosition_
 
 ; A: Sprite tile
 setSpriteTile_:	public setSpriteTile_
-	lda		selectedSprite
+	ldy		selectedSprite
 	
-	; Multiply sprite number by 4
-	asl		a
-	asl		a
-
 	; Move to tile offset
-	clc
-	adc		#2
-
-	tay
+	iny
+	iny
 
 	lda		setSpriteTile_@Param0
 	sta		spriteTable, y
@@ -154,17 +146,12 @@ setSpriteTile_:	public setSpriteTile_
 
 ; Param0 - Sprite color
 setSpriteColor_:	public setSpriteColor_
-	lda		selectedSprite
+	ldy		selectedSprite
 	
-	; Multiply sprite number by 4
-	rol		a
-	rol		a
-
 	; Move to color offset
-	clc
-	adc		#3
-
-	tay
+	iny
+	iny
+	iny
 
 	lda		setSpriteColor_@Param0
 	sta		spriteTable, y
@@ -174,17 +161,11 @@ setSpriteColor_:	public setSpriteColor_
 ; Param0 - Sprite tile
 ; Param1 - Sprite color
 setSpriteTileAndColor_:	public setSpriteTileAndColor_
-	lda		selectedSprite
+	ldy		selectedSprite
 	
-	; Multiply sprite number by 4
-	asl		a
-	asl		a
-
 	; Move to tile offset
-	clc
-	adc		#2
-
-	tay
+	iny
+	iny
 
 	lda		setSpriteTileAndColor_@Param0
 	sta		spriteTable, y
