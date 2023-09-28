@@ -107,6 +107,11 @@ updateSpriteAttributeTable:	public updateSpriteAttributeTable
 
 selectSprite_:	public selectSprite_
 	lda		selectSprite_@Param0
+
+	; Multiply sprite number by 4
+	asl		a
+	asl		a
+
 	sta		selectedSprite
 
 	rts
@@ -114,12 +119,8 @@ selectSprite_:	public selectSprite_
 ; Param0 - Sprite X
 ; Param1 - Sprite Y
 setSpritePosition_:	public setSpritePosition_
-	lda		selectedSprite
+	ldy		selectedSprite
 	
-	; Multiply sprite number by 4
-	asl		a
-	asl		a
-
 	tay
 
 	lda		setSpritePosition_@Param1
