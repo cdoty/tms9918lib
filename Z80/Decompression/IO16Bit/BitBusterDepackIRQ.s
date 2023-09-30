@@ -7,15 +7,19 @@ cseg
 ; HL = RAM/ROM source ; DE = VRAM destination
 ;-----------------------------------------------------------
 decompressToVRAM_:	public decompressToVRAM_
-; VRAM address setup
-	ld		a, (VDPReadBase + WriteOffset)	; Reset register write mode
+	di
 
+; VRAM address setup
+	ld		bc, VDPReadBase + WriteOffset
+	in		a, (c)	; Reset register write mode
+
+	ld		bc, VDPBase + WriteOffset
 	ld		a, e
-	ld		(VDPBase + WriteOffset), a
+	out		(c), a
 
 	ld		a, d
 	or		$40
-	ld		(VDPBase + WriteOffset), a
+	out		(c), a
 
 ; Skips 4 bytes data header
 	inc		hl
@@ -43,15 +47,14 @@ nxt0:
 	jp		c, Compressed
 
 	push	af
-	
 	ld		a, (hl)
+	ld		bc, VDPBase
+	out		(c), a
+	pop		af
+
 	inc		hl
 	dec		b
 
-	ld		(VDPBase), a
-	
-	pop		af
-	
 	inc		de
 	
 	jp		Depack_loop
@@ -64,7 +67,7 @@ Compressed:
 Match:
 	ld		b, 0
 	bit		7, c
-	jr		z, Match1
+	jp		z, Match1
 
 	add		a, a
 	jp		nz, nxt1
@@ -164,29 +167,37 @@ Gamma_end:
 	push	af
 
 loop:	
+	push	bc
+
+	ld		bc, VDPBase + WriteOffset
 	ld		a, l
-	ld		(VDPBase + WriteOffset), a
+	out		(c), a
 
 	ld		a, h
-	ld		(VDPBase + WriteOffset), a
+	out		(c), a
 
-	ld		a, (VDPReadBase)
+	ld		bc, VDPReadBase
+	in		a, (c)
 	
 	ex		af, af'
 
+	ld		bc, VDPBase + WriteOffset
 	ld		a, e
-	ld		(VDPBase + WriteOffset), a
+	out		(c), a
 
 	ld		a, d
 	or		$40
-	ld		(VDPBase + WriteOffset), a
+	out		(c), a
 
 	ex		af, af'
 	
-	ld		(VDPBase), a
+	ld		bc, VDPBase
+	out		(c), a
 	
 	inc		de
 	
+	pop		bc
+
 	cpi
 	jp		pe, loop
 	
@@ -197,4 +208,6 @@ loop:
 
 ; Depacker exit
 Depack_out:
+	ei
+
 	ret

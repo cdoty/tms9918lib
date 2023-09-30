@@ -168,13 +168,9 @@ Gamma_end:
 loop:	
 	ld		a, l
 	ld		(VDPBase + WriteOffset), a
-;	ex		(sp), hl
-;	ex		(sp), hl
 
 	ld		a, h
 	ld		(VDPBase + WriteOffset), a
-;	ex		(sp), hl
-;	ex		(sp), hl
 
 	ld		a, (VDPReadBase)
 	
@@ -182,20 +178,14 @@ loop:
 
 	ld		a, e
 	ld		(VDPBase + WriteOffset), a
-;	ex		(sp), hl
-;	ex		(sp), hl
 
 	ld		a, d
 	or		$40
 	ld		(VDPBase + WriteOffset), a
-;	ex		(sp), hl
-;	ex		(sp), hl
 
 	ex		af, af'
 	
 	ld		(VDPBase), a
-;	ex		(sp), hl
-;	ex		(sp), hl
 	
 	inc		de
 	
