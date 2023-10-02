@@ -7,7 +7,7 @@ cseg
 ; HL = RAM/ROM source ; DE = VRAM destination
 ;-----------------------------------------------------------
 decompressToVRAM_:	public decompressToVRAM_
-; VRAM address setup
+	; VRAM address setup
 	ld		bc, VDPReadBase + WriteOffset
 	in		a, (c)	; Reset register write mode
 
@@ -19,13 +19,13 @@ decompressToVRAM_:	public decompressToVRAM_
 	or		$40
 	out		(c), a
 
-; Skips 4 bytes data header
+	; Skips 4 bytes data header
 	inc		hl
 	inc		hl
 	inc		hl
 	inc		hl
 
-; Initialization
+	; Initialization
 	ld		a, 128
 	exx
 
