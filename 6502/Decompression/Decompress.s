@@ -14,10 +14,14 @@ decompressToVRAM_@Param0:	public decompressToVRAM_@Param0
 decompressToVRAM_@Param1:	public decompressToVRAM_@Param1
 	ds	2
 
+decompressToVRAM_@Param2:	public decompressToVRAM_@Param2
+	ds	2
+
 cseg
 
 ; decompressToVRAM_@Param0 - Source
 ; decompressToVRAM_@Param1 - VRAM address
+; decompressToVRAM_@Param2 - Size of compressed data, unused.
 ; Wipes out x, y, ZPCount/ZPCount+1
 decompressToVRAM_:	public decompressToVRAM_
 	sei

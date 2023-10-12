@@ -6,11 +6,7 @@ cseg
 ; BitBuster v1.2 VRAM Depacker v1.1 - 16Kb version
 ; HL = RAM/ROM source ; DE = VRAM destination
 ;-----------------------------------------------------------
-decompressToVRAM_:	public decompressToVRAM_
-		; Source and destination setup.
-		ld		hl, (_srcAddress)
-		ld		de, (_destAddress)
-
+decompressToRAM_:	public decompressToRAM_
 		; Skips 4 bytes data header
 		inc		hl
 		inc		hl
