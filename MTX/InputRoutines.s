@@ -1,3 +1,4 @@
+include "../../System/InputDefines.inc"
 include "../../System/SystemDefines.inc"
 
 dseg
@@ -59,7 +60,7 @@ readJoystick1:
 	bit		7, a
 	jr		nz, checkJoystick1Left
 	
-	set		0, b
+	set		JoypadUpBit, b
 
 checkJoystick1Left:
 	ld		a, $F7
@@ -69,7 +70,7 @@ checkJoystick1Left:
 	bit		7, a
 	jr		nz, checkJoystick1Right
 
-	set		1, b
+	set		JoypadLeftBit, b
 
 checkJoystick1Right:
 	ld		a, $EF
@@ -79,7 +80,7 @@ checkJoystick1Right:
 	bit		7, a
 	jr		nz, checkJoystick1Down
 
-	set		2, b
+	set		JoypadRightBit, b
 
 checkJoystick1Down:
 	ld		a, $7F
@@ -89,7 +90,7 @@ checkJoystick1Down:
 	bit		7, a
 	jr		nz, checkFire1
 
-	set		3, b
+	set		JoypadDownBit, b
 
 checkFire1:
 	ld		a, $DF
@@ -99,7 +100,7 @@ checkFire1:
 	bit		7, a
 	jr		nz, exitReadJoystick1
 
-	set		4, b
+	set		Button1Bit, b
 
 exitReadJoystick1:
 	ld		a, b
@@ -126,31 +127,31 @@ readJoystick2:
 	bit		2, d
 	jr		nz, checkJoystick2Left
 	
-	set		0, b
+	set		JoypadUpBit, b
 
 checkJoystick2Left:
 	bit		3, d
 	jr		z, checkJoystick2Right
 
-	set		1, b
+	set		JoypadLeftBit, b
 
 checkJoystick2Right:
 	bit		0, d
 	jr		nz, checkJoystick2Down
 
-	set		3, b
+	set		JoypadDownBit, b
 
 checkJoystick2Down:
 	bit		2, d
 	jr		nz, checkFire2
 
-	set		3, b
+	set		JoypadDownBit, b
 
 checkFire2:
 	bit		0, e
 	jr		nz, exitReadJoystick2
 
-	set		4, b
+	set		Button1Bit, b
 
 exitReadJoystick2:
 	ld		a, b

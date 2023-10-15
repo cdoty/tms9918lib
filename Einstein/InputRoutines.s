@@ -1,3 +1,4 @@
+include "../../System/InputDefines.inc"
 include "../../System/SystemDefines.inc"
 
 DeadZone			equ	64
@@ -79,7 +80,7 @@ readJoystick1:
 	jr		nc, checkJoystick1Up
 
 	; Set down bit
-	set		0, b
+	set		JoypadDownBit, b
 
 	jp		checkJoystick1Right
 
@@ -88,7 +89,7 @@ checkJoystick1Up:
 	jr		c, checkJoystick1Right
 
 	; Set up bit
-	set		1, b
+	set		JoypadUpBit, b
 
 checkJoystick1Right:
 	; Select X axis
@@ -106,7 +107,7 @@ checkJoystick1Right:
 	jr		c, checkJoystick1Left
 
 	; Set right bit
-	set		2, b
+	set		JoypadRightBit, b
 
 	jp		exitReadJoystick1
 
@@ -115,7 +116,7 @@ checkJoystick1Left:
 	jr		nc, exitReadJoystick1
 
 	; Set left bit
-	set		3, b
+	set		JoypadLeftBit, b
 
 exitReadJoystick1:
 	ld		a, b
@@ -141,7 +142,7 @@ readJoystick2:
 	jr		nc, checkJoystick2Up
 
 	; Set down bit
-	set		0, b
+	set		JoypadDownBit, b
 
 	jp		checkJoystick2Right
 
@@ -150,7 +151,7 @@ checkJoystick2Up:
 	jr		c, checkJoystick2Right
 
 	; Set up bit
-	set		1, b
+	set		JoypadUpBit, b
 
 checkJoystick2Right:
 	; Select X axis
@@ -167,7 +168,8 @@ checkJoystick2Right:
 	cp		127 + DeadZone
 	jr		c, checkJoystick2Left
 
-	set		3, b
+	; Set right bit
+	set		JoypadRightBit, b
 
 	jp		exitReadJoystick2
 
@@ -175,7 +177,8 @@ checkJoystick2Left:
 	cp		127 - DeadZone
 	jr		nc, exitReadJoystick2
 
-	set		4, b
+	; Set left bit
+	set		JoypadLeftBit, b
 
 exitReadJoystick2:
 	ld		a, b
@@ -195,13 +198,13 @@ readJoystickButtons:
 	bit		0, a
 	jr		nz, check2ndFireButton
 		
-	set		4, b
+	set		Button1Bit, b
 
 check2ndFireButton:
 	bit		1, a
 	jr		nz, exitReadJoystickButtons
 
-	set		4, c
+	set		Button1Bit, c
 
 exitReadJoystickButtons:
 	ld		a, b

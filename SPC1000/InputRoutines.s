@@ -1,3 +1,4 @@
+include "../../System/InputDefines.inc"
 include "../../System/SystemDefines.inc"
 
 DeadZone			equ	64
@@ -71,20 +72,20 @@ readJoystick1:
 	bit		1, a
 	jr		nz, CheckLeft
 	
-	set		0, b
+	set		JoypadRightBit, b
 	jr		CheckUp
 
 CheckLeft:
 	bit		2, a
 	jr		nz, CheckUp
 	
-	set		1, b
+	set		JoypadLeftBit, b
 
 CheckUp:
 	bit		3, a
 	jr		nz, CheckDown
 	
-	set		2, b
+	set		JoypadUpBit, b
 
 	jr		CheckFire1
 
@@ -92,19 +93,19 @@ CheckDown:
 	bit		4, a
 	jr		nz, CheckFire1
 	
-	set		3, b
+	set		JoypadDownBit, b
 
 CheckFire1:
 	bit		0, a
 	jr		nz, CheckFire2
 	
-	set		4, b
+	set		Button1Bit, b
 
 CheckFire2:
-	bit		5, a
+	bit		Button1Bit, a
 	jr		nz, exitReadJoystick
 	
-	set		5, b
+	set		Button2Bit, b
 
 exitReadJoystick:
 	ld		a, b

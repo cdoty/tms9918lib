@@ -1,3 +1,4 @@
+include "../../System/InputDefines.inc"
 include "../../System/SystemDefines.inc"
 
 dseg
@@ -72,14 +73,16 @@ readJoysticks:
 	bit		4, a
 	jr		nz, readEButton
 
-	set		0, b
+	; Set down bit
+	set		JoypadDownBit, b
 
 readEButton:
 	; Read E button
 	bit		6, a
 	jr		nz, readUpButton
 
-	set		4, b
+	; Set button 1 bit
+	set		Button1Bit, b
 
 readUpButton:
 	; Select Port B register
@@ -100,7 +103,8 @@ readUpButton:
 	bit		3, a
 	jr		nz, readRightButton
 
-	set		1, b
+	; Set up bit
+	set		JoypadUpBit, b
 
 readRightButton:
 	; Select Port B register
@@ -121,7 +125,8 @@ readRightButton:
 	bit		4, a
 	jr		nz, readLeftButton
 
-	set		2, b
+	; Set left bit
+	set		JoypadLeftBit, b
 
 readLeftButton:
 	; Select Port B register
@@ -142,7 +147,8 @@ readLeftButton:
 	bit		3, a
 	jr		nz, exitReadJoystick
 
-	set		3, b
+	; Set right bit
+	set		JoypadRightBit, b
 
 exitReadJoystick:
 	ld		a, b
