@@ -27,13 +27,6 @@ exitEnableExpandedRAM:
 checkExpandedRAM:
 	ld		b, 1
 
-	xor		a
-
-	ld		(RAMStart), a
-	ld		(RAMStart + DefaultRamSize), a
-	ld		(RAMStart + DefaultRamSize * 2), a
-	ld		(RAMStart + DefaultRamSize * 3), a
-
 	ld		a, $11
 	ld		(RAMStart), a
 

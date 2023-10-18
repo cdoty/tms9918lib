@@ -1,0 +1,4 @@
+cseg
+
+_CASTLEMARKER:	public _CASTLEMARKER
+	db	"ASCII 1986"

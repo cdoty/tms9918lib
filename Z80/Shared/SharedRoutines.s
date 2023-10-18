@@ -7,6 +7,11 @@ expandedRAMEnabled:	public	expandedRAMEnabled
 
 cseg
 
+expandedRAMAvailable_:	public expandedRAMAvailable_
+	ld		a, (expandedRAMEnabled)
+	
+	ret
+
 startupDelay:	public startupDelay
 	ld		bc, 0
 	
@@ -21,7 +26,8 @@ delayLoop:
 	ret
 	
 clearRam:	public clearRam
-	xor		a
+	xor		a	
+	ld		(expandedRAMEnabled), a
 	
 	ld		hl, RAMStart
 	ld		(hl), a
@@ -31,4 +37,10 @@ clearRam:	public clearRam
 	
 	ldir
 
+	ret
+
+setupLibrary:	public setupLibrary
+	xor		a	
+	ld		(expandedRAMEnabled), a
+	
 	ret
