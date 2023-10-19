@@ -7,6 +7,16 @@ expandedRAMEnabled:	public	expandedRAMEnabled
 
 cseg
 
+expandedRAMAvailable_:	public expandedRAMAvailable_
+    dect	r10
+	mov		r11, *r10
+
+	mov		@expandedRAMEnabled, r0
+	
+	mov		*r10+, r11
+	
+	rt
+
 startupDelay:	public startupDelay
     dect	r10
 	mov		r11, *r10
@@ -38,6 +48,17 @@ clearRamLoop:
 	dec		r2
 	jne		clearRamLoop
 		
+	mov		*r10+, r11
+	
+	rt
+
+setupLibrary:	public setupLibrary
+    dect	r10
+	mov		r11, *r10
+
+	clr		r0
+	mov		r0, @expandedRAMEnabled
+
 	mov		*r10+, r11
 	
 	rt

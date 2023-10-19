@@ -3,7 +3,17 @@ include "../../../System/SystemDefines.inc"
 ext	ZPDestination
 ext	ZPCount
 
+dseg
+
+expandedRAMEnabled:	public	expandedRAMEnabled
+	ds	1
+
 cseg
+
+expandedRAMAvailable_:	public expandedRAMAvailable_
+	lda		expandedRAMEnabled
+	
+	rts
 
 startupDelay:	public startupDelay
 	ldx		#$FF		; Set the total number of bytes to clear
@@ -45,4 +55,10 @@ clearRamLoop:
 	dec		ZPCount + 1
 	bne		clearRamLoop
 
+	rts
+
+setupLibrary:	public setupLibrary
+	lda		#0
+	sta		expandedRAMEnabled
+	
 	rts
