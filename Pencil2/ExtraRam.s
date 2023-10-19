@@ -10,36 +10,41 @@ cseg
 enableExpandedRAM:	public enableExpandedRAM
 	ld		b, 1
 
-	ld		a, $55
-	ld		(ExtraRAMStart), a
-	ld		(ExtraRAMStart + ExtraRAMSize - 1), a
+	ld		a, $11
+	ld		(RAMStart), a
 
-	ld		hl, ExtraRAMStart
+	ld		a, $22
+	ld		(RAMStart + DefaultRamSize), a
+
+	ld		hl, RAMStart
 	
 	cp		(hl)
-	jp		z, TestRam2
+	jp		nz, TestRam2
 
 	ld		b, 0
+
 	jp		exitCheckExpandedRam
 
 TestRam2:
-	ld		a, $AA
-	ld		(ExtraRAMStart + ExtraRAMSize / 4 * 2), a
-	ld		(ExtraRAMStart + ExtraRAMSize / 4 * 3), a
+	ld		a, $33
+	ld		(RAMStart + DefaultRamSize * 2), a
 
-	ld		hl, ExtraRAMStart + ExtraRAMSize / 4 * 2
+	ld		a, $44
+	ld		(RAMStart + DefaultRamSize * 3), a
+
+	ld		hl, RAMStart + DefaultRamSize * 2
 	
 	cp		(hl)
-	jp		z, TestRam3
+	jp		nz, TestRam3
 
 	ld		b, 0
 
 	jp		exitCheckExpandedRam
 
 TestRam3:
-	ld		a, $81
+	ld		a, $55
 	ld		(ExtraRAMStart), a
-	ld		(ExtraRAMStart + ExtraRAMSize / 4 * 3), a
+	ld		(ExtraRAMStart + ExtraRAMSize - 1), a
 
 	ld		hl, ExtraRAMStart
 	
@@ -50,6 +55,33 @@ TestRam3:
 	jp		exitCheckExpandedRam
 
 TestRam4:
+	ld		a, $AA
+	ld		(ExtraRAMStart + ExtraRAMSize / 4 * 2), a
+	ld		(ExtraRAMStart + ExtraRAMSize / 4 * 3), a
+
+	ld		hl, ExtraRAMStart + ExtraRAMSize / 4 * 2
+	
+	cp		(hl)
+	jp		z, TestRam5
+
+	ld		b, 0
+
+	jp		exitCheckExpandedRam
+
+TestRam5:
+	ld		a, $81
+	ld		(ExtraRAMStart), a
+	ld		(ExtraRAMStart + ExtraRAMSize / 4 * 3), a
+
+	ld		hl, ExtraRAMStart
+	
+	cp		(hl)
+	jp		z, TestRam6
+
+	ld		b, 0
+	jp		exitCheckExpandedRam
+
+TestRam6:
 	ld		a, $42
 	ld		(ExtraRAMStart + ExtraRAMSize / 4), a
 	ld		(ExtraRAMStart + ExtraRAMSize / 4 * 2), a
