@@ -1,4 +1,4 @@
-tms9918lib is a game development library using Inufuto's [CATE]([https://duckduckgo.com](https://github.com/inufuto/Cate)https://github.com/inufuto/Cate) and [asm8](https://github.com/inufuto/asm8) compilers.
+tms9918lib is a game development library using Inufuto's [CATE](https://github.com/inufuto/Cate) and [asm8](https://github.com/inufuto/asm8) compilers.
 The library can compile the same game code, in a C like language, across every supported platform.
 
 The library currently supports low level graphics, joystick, and sprite access across:
