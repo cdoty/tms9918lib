@@ -12,7 +12,8 @@ expandedRAMAvailable_:	public expandedRAMAvailable_
 	mov		r11, *r10
 
 	mov		@expandedRAMEnabled, r0
-	
+	swpb	r0
+
 	mov		*r10+, r11
 	
 	rt

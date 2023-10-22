@@ -15,7 +15,7 @@ selectedSprite:	public selectedSprite
 	ds	2
 
 updateSpriteAttributes:	public updateSpriteAttributes
-	ds	1
+	ds	2
 
 cseg
 
