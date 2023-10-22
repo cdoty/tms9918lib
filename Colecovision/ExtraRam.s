@@ -60,32 +60,69 @@ TestRam2:
 
 TestRam3:
 	ld		a, $55
-	ld		(RAMStart), a
+	ld		(ExtraRAMStart), a
+	ld		(ExtraRAMStart + ExtraRAMSize - 1), a
 
-	ld		a, $AA
-	ld		(RAMStart + DefaultRamSize * 3), a
-
-	ld		hl, RAMStart
-	
+	ld		hl, ExtraRAMStart
 	cp		(hl)
-	jp		nz, TestRam4
+	jp		nz, ExitTestRam3
 
+	ld		hl, ExtraRAMStart + ExtraRAMSize - 1
+	cp		(hl)
+	jp		z, TestRam4
+
+ExitTestRam3:
 	ld		b, 0
-
 	jp		exitCheckExpandedRam
 
 TestRam4:
-	ld		a, $99
-	ld		(RAMStart + DefaultRamSize), a
+	ld		a, $AA
+	ld		(ExtraRAMStart + ExtraRAMSize / 4 * 2), a
+	ld		(ExtraRAMStart + ExtraRAMSize / 4 * 3), a
 
-	ld		a, $66
-	ld		(RAMStart + DefaultRamSize * 2), a
-
-	ld		hl, RAMStart + DefaultRamSize
-	
+	ld		hl, ExtraRAMStart + ExtraRAMSize / 4 * 2
 	cp		(hl)
-	jp		nz, exitCheckExpandedRam
+	jp		nz, ExitTestRam4
 
+	ld		hl, ExtraRAMStart + ExtraRAMSize / 4 * 3
+	cp		(hl)
+	jp		z, TestRam5
+
+ExitTestRam4:
+	ld		b, 0
+	jp		exitCheckExpandedRam
+
+TestRam5:
+	ld		a, $81
+	ld		(ExtraRAMStart), a
+	ld		(ExtraRAMStart + ExtraRAMSize / 4 * 3), a
+
+	ld		hl, ExtraRAMStart
+	cp		(hl)
+	jp		nz, ExitTestRam5
+
+	ld		hl, ExtraRAMStart + ExtraRAMSize / 4 * 3
+	cp		(hl)
+	jp		z, TestRam6
+
+ExitTestRam5:
+	ld		b, 0
+	jp		exitCheckExpandedRam
+
+TestRam6:
+	ld		a, $42
+	ld		(ExtraRAMStart + ExtraRAMSize / 4), a
+	ld		(ExtraRAMStart + ExtraRAMSize / 4 * 2), a
+
+	ld		hl, ExtraRAMStart + ExtraRAMSize / 4
+	cp		(hl)
+	jp		nz, ExitTestRam6
+
+	ld		hl, ExtraRAMStart + ExtraRAMSize / 4 * 2
+	cp		(hl)
+	jp		z, exitCheckExpandedRam
+
+ExitTestRam6:
 	ld		b, 0
 
 exitCheckExpandedRam:

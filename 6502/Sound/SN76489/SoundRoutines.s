@@ -13,9 +13,6 @@ resetSound:	public resetSound
 	sta		CRBPort
 
 	lda		#$9F		; Write to sound chip
-	sta		PIOBPort
-
-	lda		#$9F		; Write to sound chip
 	jsr		writeSoundRegister
 
 	lda		#$BF		; Write to sound chip
@@ -26,6 +23,8 @@ resetSound:	public resetSound
 
 	lda		#$FF		; Write to sound chip
 	jsr		writeSoundRegister
+
+	jsr		$FE54
 
 	rts
 

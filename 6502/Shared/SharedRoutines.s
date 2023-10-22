@@ -11,7 +11,7 @@ expandedRAMEnabled:	public	expandedRAMEnabled
 cseg
 
 expandedRAMAvailable_:	public expandedRAMAvailable_
-	lda		expandedRAMEnabled
+	ldy		expandedRAMEnabled
 	
 	rts
 
