@@ -10,4 +10,4 @@ The library currently supports low level graphics, joystick, and sprite access a
 
 Expanded RAM can also be detected and used. In some cases, it detects added RAM expansion, in others it detects memory difference between different versions of the computer.
 
-There are two other pieces required to use this library, which will be put up later. It needs the actual game code, and it needs system specific startup and interrupt code, and system definitions.
+It needs the [base project](https://github.com/cdoty/Crab), [system specific startup](https://github.com/cdoty/SG1000) and interrupt code and system definitions, and the [tools](https://github.com/cdoty/Tools). The [actual game code](https://github.com/cdoty/Game) and this library are submodules of the system specific code.
