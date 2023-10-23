@@ -71,36 +71,26 @@ readJoystick2_:	public readJoystick2_
 	rt
 
 readJoysticks:	public readJoysticks
-	li		r12, Joystick1Address
+	li		r0, $0600		; Select column 6
+	li		r12, $0024
+	ldcr	r0, 3			 
+	li		r12, 6			; Select keyboard row
 	stcr	r0, 8
 
-	swpb	r0
+	inv		r0
+	andi	r0, $1F00
 
-	mov		r0, r1
-	andi	r0, $F0
-	andi	r1, $0C
-	srl		r0, 4
-	srl		r1, 2
-
-	soc		r1, r0
-
-	swpb	r0
 	movb	r0, @joystick1Value
 
-	li		r12, Joystick2Address
-	stcr	r0, 8
+	li		r0, $0700		; Select column 7
+	li		r12, $0024
+	ldcr	r0, 3
+	li		r12, 6
+	stcr	r0, 8        
 
-	swpb	r0
+	inv		r0
+	andi	r0, $1F00
 
-	mov		r0, r1
-	andi	r0, $F0
-	andi	r1, $0C
-	srl		r0, 4
-	srl		r1, 2
-
-	soc		r1, r0
-
-	swpb	r0
 	movb	r0, @joystick2Value
 
 	rt
