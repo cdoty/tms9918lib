@@ -75,7 +75,7 @@ enableIRQ_:	public enableIRQ_
     dect	r10
 	mov		r11, *r10
 
-;	limi	$0000		; Disable interrupts
+	limi	2			; Enable interrupts
 
     mov		*r10+, r11
 	
@@ -85,7 +85,7 @@ disableIRQ_:	public disableIRQ_
     dect	r10
 	mov		r11, *r10
 
-	limi	$0000		; Disable interrupts
+	limi	0			; Disable interrupts
 
     mov		*r10+, r11
 	
