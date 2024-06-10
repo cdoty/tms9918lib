@@ -2,8 +2,7 @@ ext	startup
 ext	MTXEnd
 ext	nmiHandler
 
-BaseMem	equ	$8000
-
+BaseMem		equ	$8000
 MTXStart	equ	$8100
 
 _MTXLOADER:	public _MTXLOADER

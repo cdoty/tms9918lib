@@ -50,14 +50,14 @@ clearVRAM:	public clearVRAM
 	
 	lda		#0
 
-ClearVRAMLoop:
+clearVRAMLoop:
 	sta		VDPBase
 	
 	dex	
-	bne		ClearVRAMLoop
+	bne		clearVRAMLoop
 	
 	dey	
-	bne		ClearVRAMLoop
+	bne		clearVRAMLoop
 
 	rts
 		
