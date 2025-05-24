@@ -3,6 +3,7 @@ include "../../System/SystemDefines.inc"
 include "../../System/VRAMDefines.inc"
 
 ext	writeVDPReg
+ext	spriteMagnification
 ext	updateSpriteAttributes
 ext	updateSpriteAttributeTable
 
@@ -15,7 +16,10 @@ setMode2:	public setMode2
 	li		r1, $0280										; Disable external VDP interrupt, set M2 for Graphics mode 2
 	bl		@writeVDPReg
 
-	li		r1, SpriteSize SHL 8
+	mov		@spriteMagnification, r1
+	swpb	r1
+
+	ori		r1, SpriteSize SHL 8
 	ori		r1, $A081										; Enable 16K VRAM, Screen, NMI interrupt, and 8x8 sprites
 	bl		@writeVDPReg
 
@@ -47,8 +51,10 @@ turnOnScreen_: public turnOnScreen_
     dect	r10
 	mov		r11, *r10
 
-	li		r1, SpriteSize SHL 8
+	mov		@spriteMagnification, r1
+	swpb	r1
 
+	ori		r1, SpriteSize SHL 8
 	ori		r1, $E081
 	bl		@writeVDPReg
 
@@ -62,8 +68,10 @@ turnOffScreen_:	public turnOffScreen_
     dect	r10
 	mov		r11, *r10
 
-	li		r1, SpriteSize SHL 8
+	mov		@spriteMagnification, r1
+	swpb	r1
 
+	ori		r1, SpriteSize SHL 8
 	ori		r1, $A081
 	bl		@writeVDPReg
 

@@ -8,11 +8,26 @@ dseg
 expandedRAMEnabled:	public	expandedRAMEnabled
 	ds	1
 
+spriteMagnification:	public spriteMagnification
+	ds	1
+
 cseg
 
 expandedRAMAvailable_:	public expandedRAMAvailable_
 	ldy		expandedRAMEnabled
 	
+	rts
+
+enableSpriteMagnification_:	public enableSpriteMagnification_
+	lda		#1
+	sta		spriteMagnification
+
+	rts
+
+disableSpriteMagnification_:	public disableSpriteMagnification_
+	lda		#0
+	sta		spriteMagnification
+
 	rts
 
 startupDelay:	public startupDelay
@@ -60,5 +75,6 @@ clearRamLoop:
 setupLibrary:	public setupLibrary
 	lda		#0
 	sta		expandedRAMEnabled
+	sta		spriteMagnification
 	
 	rts

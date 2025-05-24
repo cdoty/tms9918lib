@@ -5,6 +5,7 @@ include "../../System/VRAMDefines.inc"
 ext	nmiCount
 ext	lastNMICount
 ext	writeVDPReg
+ext	spriteMagnification
 ext	ZPParam1
 ext	ZPParam2
 
@@ -17,9 +18,10 @@ setMode2:	public setMode2
 	sta		ZPParam2
 	jsr		writeVDPReg
 
-	lda		#SpriteSize					; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
+	lda		spriteMagnification
+	ora		#SpriteSize					; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ora		#$A0
-	sta		ZPParam1
+	sta		ZPParam1	
 	lda		#1
 	sta		ZPParam2
 	jsr		writeVDPReg
@@ -65,9 +67,11 @@ setMode2:	public setMode2
 ; Turn on screen
 ; void turnOnScreen();
 turnOnScreen_: public turnOnScreen_
-	lda		#SpriteSize					; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
+	lda		spriteMagnification
+	ora		#SpriteSize					; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ora		#$E0
 	sta		ZPParam1
+	
 	lda		#$01
 	sta		ZPParam2
 	
@@ -78,9 +82,11 @@ turnOnScreen_: public turnOnScreen_
 ; Turn off screen
 ; void turnOffScreen();
 turnOffScreen_:	public turnOffScreen_
-	lda		#SpriteSize					; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
+	lda		spriteMagnification
+	ora		#SpriteSize					; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ora		#$A0
 	sta		ZPParam1
+
 	lda		#$01
 	sta		ZPParam2
 	

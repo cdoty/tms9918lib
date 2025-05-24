@@ -5,6 +5,10 @@ dseg
 expandedRAMEnabled:	public	expandedRAMEnabled
 	ds	2
 
+spriteMagnification:	public	spriteMagnification
+	ds	2
+
+
 cseg
 
 expandedRAMAvailable_:	public expandedRAMAvailable_
@@ -13,6 +17,28 @@ expandedRAMAvailable_:	public expandedRAMAvailable_
 
 	mov		@expandedRAMEnabled, r0
 	swpb	r0
+
+	mov		*r10+, r11
+	
+	rt
+
+enableSpriteMagnification_:	public enableSpriteMagnification_
+    dect	r10
+	mov		r11, *r10
+
+	li		r0, 1
+	mov		r0, @spriteMagnification
+
+	mov		*r10+, r11
+	
+	rt
+
+disableSpriteMagnification_:	public disableSpriteMagnification_
+    dect	r10
+	mov		r11, *r10
+
+	clr		r0
+	mov		r0, @spriteMagnification
 
 	mov		*r10+, r11
 	
@@ -59,7 +85,8 @@ setupLibrary:	public setupLibrary
 
 	clr		r0
 	mov		r0, @expandedRAMEnabled
-
+	mov		r0, @spriteMagnification
+	
 	mov		*r10+, r11
 	
 	rt

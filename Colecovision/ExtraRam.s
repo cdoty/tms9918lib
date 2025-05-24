@@ -8,6 +8,9 @@ cseg
 ; 0: No memory expansion 
 ; 1: Memory expansion enabled
 enableExpandedRAM:	public enableExpandedRAM
+	; Save the return address since the stack will be destroyed if the RAM is swapped in.
+	pop		de
+
 	; See if memory expansion is already enabled
 	call	checkExpandedRAM
 
@@ -15,12 +18,15 @@ enableExpandedRAM:	public enableExpandedRAM
 	jr		z, exitEnableExpandedRAM
 
 	; If not, try to enable it
-	call	enableRAMExpansion
+	ld		a, 1
+	out		(MemoryExpansionPort), a
 
 	; Check again to make sure it was enabled
 	call	checkExpandedRAM
 
 exitEnableExpandedRAM:
+	push	de
+
 	ret
 
 ; Return A - 0: No memory expansion  1: Memory expansion present
@@ -128,11 +134,5 @@ ExitTestRam6:
 exitCheckExpandedRam:
 	ld		a, b
 	ld		(expandedRAMEnabled), a
-
-	ret
-
-enableRAMExpansion:
-	ld		a, 1
-	out		(MemoryExpansionPort), a
 
 	ret

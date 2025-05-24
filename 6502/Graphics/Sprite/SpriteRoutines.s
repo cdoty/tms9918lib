@@ -12,23 +12,13 @@ ext	ZPDestination
 zseg
 
 selectSprite_@Param0:	public selectSprite_@Param0
-	ds	1
-
 setSpritePosition_@Param0:	public setSpritePosition_@Param0
-	ds	1
-
-setSpritePosition_@Param1:	public setSpritePosition_@Param1
-	ds	1
-
 setSpriteTile_@Param0:	public setSpriteTile_@Param0
-	ds	1
-
 setSpriteColor_@Param0:	public setSpriteColor_@Param0
-	ds	1
-
 setSpriteTileAndColor_@Param0:	public setSpriteTileAndColor_@Param0
 	ds	1
 
+setSpritePosition_@Param1:	public setSpritePosition_@Param1
 setSpriteTileAndColor_@Param1:	public setSpriteTileAndColor_@Param1
 	ds	1
 

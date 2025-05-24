@@ -54,7 +54,6 @@ updateSprites_:	public updateSprites_
 	
 updateSpriteAttributeTable:	public updateSpriteAttributeTable
 	; No need to disable interrupts since we're in VBlank
-
 	ld		hl, spriteTable
 	ld		de, SpriteAttributes
 	ld		bc, 4 * MaxSprites
