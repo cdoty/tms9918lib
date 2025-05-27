@@ -46,6 +46,27 @@ clearVRAMLoop:
 
 	ret
 		
+; A value
+; DE: _dest
+writeToVRAM_:	public writeToVRAM_
+	ld		b, a
+	
+	in		a, (VDPReadBase + WriteOffset)	; Reset register write mode
+
+	ld		a, e
+	out		(VDPBase + WriteOffset), a
+	
+	ld		a, d
+	or		$40
+	out		(VDPBase + WriteOffset), a
+	
+	ld		a, b
+	out		(VDPBase), a
+
+	in		a, (VDPReadBase + WriteOffset)	; Acknowledge interrupt
+
+	ret
+
 ; HL: _source
 ; DE: _dest
 ; BC: _size

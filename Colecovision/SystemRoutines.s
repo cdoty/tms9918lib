@@ -17,7 +17,7 @@ setMode2:	public setMode2
 
 	ld		a, (spriteMagnification)
 	or		SpriteSize
-	or		$A0
+	or		$80
 	
 	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1
@@ -67,7 +67,7 @@ turnOnScreen_: public turnOnScreen_
 turnOffScreen_:	public turnOffScreen_
 	ld		a, (spriteMagnification)
 	or		SpriteSize
-	or		$A0
+	or		$80
 	
 	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
 	ld		c, 1

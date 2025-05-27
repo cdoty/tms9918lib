@@ -56,6 +56,26 @@ ClearVRAMLoop:
 	rt
 		
 ; R0: VRAM address
+; R1: Value
+writeToVRAM_:	public writeToVRAM_
+    dect	r10
+	mov		r11, *r10
+
+	ori		r0, $4000		; Or with 4000h to indicate it's a VRAM write
+	
+	swpb	r0				; Write low byte first. movb transfer from the high byte of a word.
+	movb	r0, @VDPBase + WriteOffset
+
+	swpb	r0
+	movb	r0, @VDPBase + WriteOffset
+				
+	movb	r1, @VDPBase
+
+    mov		*r10+, r11
+
+	rt
+
+; R0: VRAM address
 ; R1: Source address
 ; R2: Number of bytes to transfer
 transferToVRAM_:	public transferToVRAM_

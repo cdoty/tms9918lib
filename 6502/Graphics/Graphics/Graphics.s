@@ -5,9 +5,11 @@ ext	ZPParam2
 
 zseg
 
+writeToVRAM_@Param0:	public writeToVRAM_@Param0
 transferToVRAM_@Param0:	public transferToVRAM_@Param0
 	ds	2
 
+writeToVRAM_@Param1:	public writeToVRAM_@Param1
 transferToVRAM_@Param1:	public transferToVRAM_@Param1
 	ds	2
 
@@ -61,6 +63,25 @@ clearVRAMLoop:
 
 	rts
 		
+; Parameter 0 - _value
+; Parameter 1 - _dest
+writeToVRAM_:	public writeToVRAM_
+	; Ensure we are writing to the first byte
+	lda		VDPReadBase + WriteOffset
+
+	; Set VRAM address
+	lda		writeToVRAM_@Param1
+	sta		VDPBase + WriteOffset
+
+	lda		writeToVRAM_@Param1 + 1
+	ora		#$40
+	sta		VDPBase + WriteOffset
+	
+	lda		writeToVRAM_@Param0
+	sta		VDPBase
+
+	rts
+
 ; Parameter 0 - _source
 ; Parameter 1 - _dest
 ; Parameter 2 - _size
