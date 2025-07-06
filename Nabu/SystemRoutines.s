@@ -4,8 +4,9 @@ include "../../System/VRAMDefines.inc"
 
 ext	nmiCount
 ext	lastNMICount
+ext	frameCount
 ext	writeVDPReg
-ext	spriteMagnification
+ext	spriteMagnificationEnabled
 ext	vblankHandler
 ext	keyboardHandler
 
@@ -16,7 +17,7 @@ setMode2:	public setMode2
 	ld		c, 0
 	call	writeVDPReg
 
-	ld		a, (spriteMagnification)
+	ld		a, (spriteMagnificationEnabled)
 	or		SpriteSize
 	or		$80
 
@@ -53,7 +54,7 @@ setMode2:	public setMode2
 ; Turn on screen
 ; void turnOnScreen();
 turnOnScreen_: public turnOnScreen_
-	ld		a, (spriteMagnification)
+	ld		a, (spriteMagnificationEnabled)
 	or		SpriteSize
 	or		$E0
 
@@ -66,7 +67,7 @@ turnOnScreen_: public turnOnScreen_
 ; Turn off screen
 ; void turnOffScreen();
 turnOffScreen_:	public turnOffScreen_
-	ld		a, (spriteMagnification)
+	ld		a, (spriteMagnificationEnabled)
 	or		SpriteSize
 	or		$80
 
@@ -103,6 +104,10 @@ waitVBlankLoop:
 	jr		z, waitVBlankLoop
 	
 	ld		(lastNMICount), a
+
+	ld		a, (frameCount)
+	inc		a
+	ld		(frameCount), a
 
 	ret
 

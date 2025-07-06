@@ -17,6 +17,20 @@ selectedSprite:	public selectedSprite
 updateSpriteAttributes:	public updateSpriteAttributes
 	ds	2
 
+; Flicker mode enabled
+flickerModeEnabled:	public flickerModeEnabled
+	ds	2
+
+flickerModeFrame:
+	ds	2
+	
+flickerModeStartSprite:	public flickerModeStartSprite
+	ds	2
+
+; Stores number of active sprites for forward and reverse transfer routines
+activeSprites:	public activeSprites
+	ds	2
+
 cseg
 
 clearSprites_:	public clearSprites_
@@ -49,6 +63,43 @@ clearSpriteLoop:
 	
     mov		*r10+, r2
     mov		*r10+, r1
+    mov		*r10+, r11
+	
+	rt
+
+setActiveSprites_:	public setActiveSprites_
+    dect	r10
+	mov		r11, *r10
+
+	swpb	r0
+	mov		r0, @activeSprites
+
+    mov		*r10+, r11
+	
+	rt
+
+setStartSprite_:	public setStartSprite_
+    dect	r10
+	mov		r11, *r10
+
+	swpb	r0
+	mov		r0, @flickerModeStartSprite
+
+    mov		*r10+, r11
+	
+	rt
+
+enableFlickerMode_:	public enableFlickerMode_
+    dect	r10
+	mov		r11, *r10
+
+	swpb	r0
+	mov		r0, @flickerModeEnabled		; Enable/Disable flicker mode
+	
+	clr		r0
+	mov		r0, @flickerModeFrame		; Reset flicker mode frame
+	mov		r0, @flickerModeStartSprite	; Reset flicker mode start sprite
+		
     mov		*r10+, r11
 	
 	rt

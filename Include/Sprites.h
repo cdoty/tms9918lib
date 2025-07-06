@@ -4,6 +4,15 @@ extern void clearSprites();
 // Update sprites during the next VBlank
 extern void updateSprites();
 
+// Enable flicker mode (0: Disable 1: Enable)
+extern void enableFlickerMode(byte _iEnable);
+
+// Set active sprites
+extern void setActiveSprites(byte _iActiveSprites);
+
+// Set start sprites
+extern void setStartSprite(byte _iStartSprite);
+
 // Select sprite
 extern void selectSprite(byte _index);
 

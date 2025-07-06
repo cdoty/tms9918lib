@@ -16,6 +16,9 @@ setSpritePosition_@Param0:	public setSpritePosition_@Param0
 setSpriteTile_@Param0:	public setSpriteTile_@Param0
 setSpriteColor_@Param0:	public setSpriteColor_@Param0
 setSpriteTileAndColor_@Param0:	public setSpriteTileAndColor_@Param0
+setActiveSprites_@Param0:	public setActiveSprites_@Param0
+setStartSprite_@Param0:	public setStartSprite_@Param0
+enableFlickerMode_@Param0:	public enableFlickerMode_@Param0
 	ds	1
 
 setSpritePosition_@Param1:	public setSpritePosition_@Param1
@@ -31,6 +34,20 @@ updateSpriteAttributes:	public updateSpriteAttributes
 	ds	1
 
 selectedSprite:	public selectedSprite
+	ds	1
+
+; Flicker mode enabled
+flickerModeEnabled:	public flickerModeEnabled
+	ds	1
+
+flickerModeFrame:
+	ds	1
+	
+flickerModeStartSprite:	public flickerModeStartSprite
+	ds	1
+
+; Stores number of active sprites for forward and reverse transfer routines
+activeSprites:	public activeSprites
 	ds	1
 
 cseg
@@ -60,6 +77,28 @@ clearSpritesLoop:
 	dex
 	bne		clearSpritesLoop
 
+	rts
+
+setActiveSprites_:	public setActiveSprites_
+	lda		setActiveSprites_@Param0
+	sta		activeSprites
+
+	rts
+
+setStartSprite_:	public setStartSprite_
+	lda		setStartSprite_@Param0
+	sta		flickerModeStartSprite
+
+	rts
+
+enableFlickerMode_:	public enableFlickerMode_
+	lda		enableFlickerMode_@Param0
+	sta		flickerModeEnabled
+	
+	lda		#0
+	sta		flickerModeFrame		; Reset flicker mode frame
+	sta		flickerModeStartSprite	; Reset flicker mode start sprite
+	
 	rts
 
 updateSprites_:	public updateSprites_

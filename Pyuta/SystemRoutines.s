@@ -2,8 +2,9 @@ include "../../Game/GameDefines.inc"
 include "../../System/SystemDefines.inc"
 include "../../System/VRAMDefines.inc"
 
+ext	frameCount
 ext	writeVDPReg
-ext	spriteMagnification
+ext	spriteMagnificationEnabled
 ext	updateSpriteAttributes
 ext	updateSpriteAttributeTable
 
@@ -16,7 +17,7 @@ setMode2:	public setMode2
 	li		r1, $0280										; Disable external VDP interrupt, set M2 for Graphics mode 2
 	bl		@writeVDPReg
 
-	mov		@spriteMagnification, r1
+	mov		@spriteMagnificationEnabled, r1
 	swpb	r1
 
 	ori		r1, SpriteSize SHL 8
@@ -51,7 +52,7 @@ turnOnScreen_: public turnOnScreen_
     dect	r10
 	mov		r11, *r10
 
-	mov		@spriteMagnification, r1
+	mov		@spriteMagnificationEnabled, r1
 	swpb	r1
 
 	ori		r1, SpriteSize SHL 8
@@ -68,7 +69,7 @@ turnOffScreen_:	public turnOffScreen_
     dect	r10
 	mov		r11, *r10
 
-	mov		@spriteMagnification, r1
+	mov		@spriteMagnificationEnabled, r1
 	swpb	r1
 
 	ori		r1, SpriteSize SHL 8

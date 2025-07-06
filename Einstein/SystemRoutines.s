@@ -2,11 +2,12 @@ include "../../Game/GameDefines.inc"
 include "../../System/SystemDefines.inc"
 include "../../System/VRAMDefines.inc"
 
-ext	irqHandler
 ext	nmiCount
 ext	lastNMICount
+ext	frameCount
 ext	writeVDPReg
-ext	spriteMagnification
+ext	spriteMagnificationEnabled
+ext	irqHandler
 
 cseg
 
@@ -15,7 +16,7 @@ setMode2:	public setMode2
 	ld		c, 0
 	call	writeVDPReg
 
-	ld		a, (spriteMagnification)
+	ld		a, (spriteMagnificationEnabled)
 	or		SpriteSize
 	or		$80
 	ld		b, a						; Enable 16K VRAM, Screen, NMI interrupt. Sprite size is set by SpriteSize define
@@ -51,7 +52,7 @@ setMode2:	public setMode2
 ; Turn on screen
 ; void turnOnScreen();
 turnOnScreen_: public turnOnScreen_
-	ld		a, (spriteMagnification)
+	ld		a, (spriteMagnificationEnabled)
 	or		SpriteSize
 	or		$E0
 
@@ -64,7 +65,7 @@ turnOnScreen_: public turnOnScreen_
 ; Turn off screen
 ; void turnOffScreen();
 turnOffScreen_:	public turnOffScreen_
-	ld		a, (spriteMagnification)
+	ld		a, (spriteMagnificationEnabled)
 	or		SpriteSize
 	or		$80
 
@@ -101,6 +102,10 @@ waitVBlankLoop:
 	jr		z, waitVBlankLoop
 	
 	ld		(lastNMICount), a
+
+	ld		a, (frameCount)
+	inc		a
+	ld		(frameCount), a
 
 	ret
 
