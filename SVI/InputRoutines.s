@@ -71,8 +71,11 @@ readJoysticks:
 	
 	ld		b, a
 
-	; Read joystick 1 button status, in bit 4. Bit is not inverted.
+	; Read joystick 1 button status, in bit 4.
 	in		a, (PPIPortA)
+
+	; Invert and isolate bit 4.
+	cpl
 	and		$10
 	
 	; Combine DPAD data
@@ -81,11 +84,15 @@ readJoysticks:
 	; Store result
 	ld		(joystick1Value), a
 
-	; Read joystick 2 button status, in bit 5. Bit is not inverted.
+	; Read joystick 2 button status, in bit 5.
 	in		a, (PPIPortA)
+
+	; Invert and isolate bit 5.
+	cpl
 	and		$20
 	
-	srl		a
+	; Shift into button bit.
+	srl		a	
 
 	; Combine DPAD data
 	or		c

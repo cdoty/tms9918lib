@@ -61,14 +61,15 @@ clearSprites_:	public clearSprites_
 	lda		HIGH(spriteTable)
 	sta		ZPDestination + 1
 	
-	lda		#0
 	ldy		#0
 
 clearSpritesLoop:
+	lda		#$C0
 	sta		(ZPDestination), y
 	iny
 	sta		(ZPDestination), y
 	iny
+	lda		#$00
 	sta		(ZPDestination), y
 	iny
 	sta		(ZPDestination), y
@@ -77,6 +78,8 @@ clearSpritesLoop:
 	dex
 	bne		clearSpritesLoop
 
+	jsr		updateSpriteAttributeTable
+	
 	rts
 
 setActiveSprites_:	public setActiveSprites_

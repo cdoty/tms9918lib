@@ -66,6 +66,8 @@ clearVRAMLoop:
 ; Parameter 0 - _value
 ; Parameter 1 - _dest
 writeToVRAM_:	public writeToVRAM_
+	pha
+
 	; Ensure we are writing to the first byte
 	lda		VDPReadBase + WriteOffset
 
@@ -80,6 +82,8 @@ writeToVRAM_:	public writeToVRAM_
 	lda		writeToVRAM_@Param0
 	sta		VDPBase
 
+	pla
+	
 	rts
 
 ; Parameter 0 - _source

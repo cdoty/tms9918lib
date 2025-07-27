@@ -5,6 +5,7 @@ include "../../System/VRAMDefines.inc"
 ext	nmiCount
 ext	lastNMICount
 ext	frameCount
+ext	spriteMagnificationEnabled
 ext	writeVDPReg
 ext	spriteMagnification
 

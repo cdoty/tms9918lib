@@ -1,8 +1,5 @@
 include "../../../System/SystemDefines.inc"
 
-ext	ZPValue
-ext	ZPDestination
-ext	ZPCount
 ext	flickerModeEnabled
 ext	flickerModeStartSprite
 
@@ -33,6 +30,25 @@ convertValueToAscii_@Param1:	public convertValueToAscii_@Param1
 setStartNumericChar_@Param0:	public setStartNumericChar_@Param0
 	ds	1
 
+zseg
+
+ZPValue:
+	ds	2
+ZPDestination:
+	ds	2
+
+ZPCount:
+	ds	2
+
+mul8_num1:
+	ds	1
+
+mul8_num2:
+	ds	1
+
+mul8_result:
+	ds	2
+	
 cseg
 
 initRandSeed_: public initRandSeed_
@@ -42,21 +58,42 @@ initRandSeed_: public initRandSeed_
 
 	rts
 
-; Based on http://www.6502.org/users/mycorner/6502/code/prng.html
+; Based on https://cocotownretro.wordpress.com/2025/07/20/a-retro-random-number-generator-written-by-a-modern-ai/
 rand_:	public rand_
-	pha
-	
 	lda		randSeed
 
+	cmp		#0
+	beq		randEOR
+
 	asl		a
-	bcc		noCarry
+	beq		randSet
+	bcc		randSet
 
-	eor		#$CF
+randEOR:
+	eor		#$1D
 
-noCarry:
+randSet:
 	sta		randSeed
 
-	pla
+	rts
+
+; A 	- The maximum value that can be generated. This allows values from 0 to 255.
+; Ret A - Generated value
+randLimit_:	public randLimit_
+	cmp		#255			; Use the original rand if the limit is 255
+	beq		rand_
+
+	clc
+	adc		#1
+
+	sta		mul8_num1		; Store limit value + 1 in mul8_num1 for multiplication
+
+	jsr		rand_
+	sta		mul8_num2		; Store limit value + 1 in mul8_num2 for multiplication
+
+	jsr		mul8			; Multiply mul8_num1 and mul8_num2. This pushes the limited value into the high byte of mul8_result
+
+	lda		mul8_result + 1	; Return limited value in A
 
 	rts
 
@@ -215,6 +252,35 @@ DigitValues:
 	dw		100
 	dw		1000
 	dw		10000
+
+; Multiply two 8 bit values
+; mul8_num1 - Number 1
+; mul8_num2 - Number 2
+; mul8_result - 16 bit result
+; https://www.llx.com/Neil/a2/mult.html
+mul8:
+	lda		#0			; Initialize result to 0
+	ldx		#8			; There are 8 bits in mul8_num2
+
+mul8Loop1:
+	lsr		mul8_num2	; Get low bit of NUM2
+	
+	bcc		mul8Loop2	; 0 or 1?
+	
+	clc					; If 1, add NUM1
+	
+	adc		mul8_num1
+
+mul8Loop2:
+	ror		a			; "Stairstep" shift (catching carry from add)
+	ror		mul8_result
+
+	dex
+	bne		mul8Loop1
+
+	sta		mul8_result + 1
+		
+	rts
 
 setupLibrary:	public setupLibrary
 	lda		#0

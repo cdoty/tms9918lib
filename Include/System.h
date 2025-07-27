@@ -10,11 +10,11 @@ extern void initRandSeed();
 // Get randon value
 extern byte rand();
 
+// Get randon value with limit
+extern byte randLimit(byte _limit);
+
 // Enable sprite magnification
 extern void enableSpriteMagnification(byte _enable);
-
-// Expanded RAM available
-extern byte expandedRAMAvailable();
 
 // Set start numeric char
 extern void setStartNumericChar(byte _start);

@@ -44,11 +44,12 @@ clearSprites_:	public clearSprites_
 	li		r1, spriteTable
 	li		r2, MaxSprites
 
-	clr		r0
-
 clearSpriteLoop:
+	li		r0, $C0C0
 	mov		r0, *r1
 	inct	r1
+
+	clr		r0
 
 	mov		r0, *r1
 	inct	r1
@@ -56,10 +57,11 @@ clearSpriteLoop:
 	dec		r2
 	jne		clearSpriteLoop
 	
-	li		r1, SpriteAttributes
+	li		r0, SpriteAttributes
+	li		r1, spriteTable
 	li		r2, 4 * SystemSprites
 	
-	bl		@clearVRAMWithParameters
+	bl		@updateSpriteAttributeTable
 	
     mov		*r10+, r2
     mov		*r10+, r1

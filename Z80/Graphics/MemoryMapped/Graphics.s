@@ -49,6 +49,10 @@ clearVRAMLoop:
 ; A value
 ; DE: _dest
 writeToVRAM_:	public writeToVRAM_
+	push	af
+	push	bc
+	push	de
+
 	ld		b, a
 	
 	ld		a, (VDPReadBase + WriteOffset)	; Reset register write mode
@@ -65,6 +69,10 @@ writeToVRAM_:	public writeToVRAM_
 
 	ld		a, (VDPReadBase + WriteOffset)	; Acknowledge interrupt
 
+	pop		de
+	pop		bc
+	pop		af
+	
 	ret
 
 ; void transferToVRAM(word _source, word _dest, word _size);

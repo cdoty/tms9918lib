@@ -1,4 +1,4 @@
-include "../../System/SystemDefines.inc"
+include "../../../System/SystemDefines.inc"
 
 ext	expandedRAMEnabled
 

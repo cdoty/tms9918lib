@@ -21,7 +21,7 @@ clearVRAM:	public clearVRAM
 	ld		de, $4000
 
 ; HL: VRAM start address
-; DE: Bytest to clear
+; DE: Bytes to clear
 clearVRAMWithParameters:	public clearVRAMWithParameters
 	in		a, (VDPReadBase + WriteOffset)	; Reset register write mode
 	
@@ -49,6 +49,10 @@ clearVRAMLoop:
 ; A value
 ; DE: _dest
 writeToVRAM_:	public writeToVRAM_
+	push	af
+	push	bc
+	push	de
+
 	ld		b, a
 	
 	in		a, (VDPReadBase + WriteOffset)	; Reset register write mode
@@ -65,6 +69,10 @@ writeToVRAM_:	public writeToVRAM_
 
 	in		a, (VDPReadBase + WriteOffset)	; Acknowledge interrupt
 
+	pop		de
+	pop		bc
+	pop		af
+	
 	ret
 
 ; HL: _source

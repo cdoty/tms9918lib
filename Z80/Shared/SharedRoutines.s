@@ -9,7 +9,7 @@ frameCount:	public	frameCount
 	ds	1
 
 randSeed:
-	ds	2
+	ds	1
 
 expandedRAMEnabled:	public	expandedRAMEnabled
 	ds	1
@@ -27,35 +27,53 @@ initRandSeed_: public initRandSeed_
 
     ld		a, r
     ld		(randSeed), a
-    
-	ld		a, r
-    ld		(randSeed + 1), a
 
 	pop		af
 
 	ret
 
+; Based on https://cocotownretro.wordpress.com/2025/07/20/a-retro-random-number-generator-written-by-a-modern-ai/
 rand_:	public rand_
+	ld		a, (randSeed)
+
+	cp		0
+	jp		z, randEOR
+
+	sla		a
+	jr		z, randSet
+	jr		nc, randSet
+
+randEOR:
+	xor		$1D
+
+randSet:
+	ld		(randSeed), a
+
+	ret		
+
+; A - The maximum value that can be generated. This allows values from 0 to 255.
+randLimit_:	public randLimit_
+	push	de
 	push	hl
 
-	ld		b, 8
-	ld 		hl, (randSeed)
+	cp		255					; Use the original rand if the limit is 255
+	jr		z, rand_
 
-__rand_loop:
-	add		hl, hl
-	jp		nc, __no_eor
+	inc		a					; Store limit value + 1 in h for multiplication
+	ld		h, a				
 
-	ld		a, l
-	xor		$2D
-	ld		l, a
+	call	rand_				; Call original rand routine
 
-__no_eor:
-	djnz	__rand_loop
-	ld		(randSeed), hl
+	ld		e, a				; Store the value in e for multiplication
+
+	call	mul8				; Multiply h and e. This pushes the limited value into the high byte of mul8_result
+
+	ld		a, h
 
 	pop		hl
+	pop		de
 
-	ret
+	ret		
 
 expandedRAMAvailable_:	public expandedRAMAvailable_
 	ld		a, (expandedRAMEnabled)
@@ -143,6 +161,27 @@ DivideResult:
 	sbc		hl, bc
 	ld		(de), a
 	inc		de
+
+	ret
+
+; Multiply two 8 bit values
+; H - First value
+; E - Second value
+; HL - result
+; From https://wikiti.brandonw.net/index.php?title=Z80_Routines:Math:Multiplication
+mul8:
+	ld		d, 0			; clearing D and L
+	ld		l, d
+	ld		b, 8			; The 2nd number is 8 bits
+
+mul8Loop:
+	add		hl, hl			; advancing a bit
+	jp 		nc, mul8Skip	; if zero, we skip the addition (jp is used for speed)
+	
+	add 	hl, de			; adding to the product if necessary
+
+mul8Skip:
+	djnz	mul8Loop
 
 	ret
 

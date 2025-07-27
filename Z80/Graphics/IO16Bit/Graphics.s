@@ -60,6 +60,10 @@ clearVRAMLoop:
 ; A value
 ; DE: _dest
 writeToVRAM_:	public writeToVRAM_
+	push	af
+	push	bc
+	push	de
+
 	ld		b, a
 
 	push	bc
@@ -84,6 +88,10 @@ writeToVRAM_:	public writeToVRAM_
 	ld		bc, VDPReadBase + WriteOffset
 	in		a, (c)		; Acknowledge interrupt
 
+	pop		de
+	pop		bc
+	pop		af
+	
 	ret
 
 ; HL: _source

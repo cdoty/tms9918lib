@@ -38,24 +38,21 @@ clearSprites_:	public clearSprites_
 	ld		c, a
 
 	ld		hl, spriteTable
-	xor		a
 
 clearSpriteLoop:
-	ld		(hl), a
+	ld		(hl), $C0
 	inc		hl
-	ld		(hl), a
+	ld		(hl), $C0
 	inc		hl
-	ld		(hl), a
+	ld		(hl), $00
 	inc		hl
-	ld		(hl), a
+	ld		(hl), $00
 	inc		hl
 	
 	dec		c
 	jr		nz, clearSpriteLoop
 	
-	ld		hl, SpriteAttributes
-	ld		de, 4 * SystemSprites
-	call	clearVRAMWithParameters
+	call	updateSpriteAttributeTable
 	
 	ret
 
