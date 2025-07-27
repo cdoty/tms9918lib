@@ -122,6 +122,9 @@ setupLibrary:	public setupLibrary
 	mov		r0, @flickerModeEnabled			; Disable flicker mode
 	mov		r0, @flickerModeStartSprite		; Set flicker mode start sprite
 	
+	li		r0, $0080						; Set random seed
+	mov		r0, @randSeed		
+	
 	mov		*r10+, r11
 	
 	rt
