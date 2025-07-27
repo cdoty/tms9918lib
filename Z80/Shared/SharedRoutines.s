@@ -192,10 +192,9 @@ setupLibrary:	public setupLibrary
 	ld		(spriteMagnificationEnabled), a	; Disable sprite magnification
 	ld		(flickerModeEnabled), a			; Disable flicker mode
 	ld		(flickerModeStartSprite), a		; Set flicker mode start sprite
-	ld		(randSeed), a					; Set default random seed to 0x8000
-	
+
 	ld		a, $80
-	ld		(randSeed + 1), a
+	ld		(randSeed), a					; Set default random seed to 0x80
 	
 	ld		a, '0' - 1						; Set the default numeric char
 	ld		(startNumericChar), a
