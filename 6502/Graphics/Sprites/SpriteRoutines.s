@@ -64,9 +64,10 @@ clearSprites_:	public clearSprites_
 	ldy		#0
 
 clearSpritesLoop:
-	lda		#$C0
+	lda		#HiddenSpriteX
 	sta		(ZPDestination), y
 	iny
+	lda		#HiddenSpriteY
 	sta		(ZPDestination), y
 	iny
 	lda		#$00

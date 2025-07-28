@@ -40,9 +40,9 @@ clearSprites_:	public clearSprites_
 	ld		hl, spriteTable
 
 clearSpriteLoop:
-	ld		(hl), $C0
+	ld		(hl), HiddenSpriteX
 	inc		hl
-	ld		(hl), $C0
+	ld		(hl), HiddenSpriteY
 	inc		hl
 	ld		(hl), $00
 	inc		hl

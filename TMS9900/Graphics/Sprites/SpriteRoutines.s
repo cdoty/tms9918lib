@@ -45,7 +45,7 @@ clearSprites_:	public clearSprites_
 	li		r2, MaxSprites
 
 clearSpriteLoop:
-	li		r0, $C0C0
+	li		r0, (HiddenSpriteX SHL 8) OR HiddenSpriteY
 	mov		r0, *r1
 	inct	r1
 
