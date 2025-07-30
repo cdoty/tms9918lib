@@ -45,7 +45,7 @@ clearSprites_:	public clearSprites_
 	li		r2, MaxSprites
 
 clearSpriteLoop:
-	li		r0, (HiddenSpriteX SHL 8) OR HiddenSpriteY
+	li		r0, (HiddenSpriteY SHL 8) OR HiddenSpriteX
 	mov		r0, *r1
 	inct	r1
 
@@ -61,7 +61,7 @@ clearSpriteLoop:
 	li		r1, spriteTable
 	li		r2, 4 * SystemSprites
 	
-	bl		@updateSpriteAttributeTable
+	bl		@transferSpriteAttributeTable
 	
     mov		*r10+, r2
     mov		*r10+, r1
@@ -119,6 +119,7 @@ updateSprites_:	public updateSprites_
 	rt
 	
 updateSpriteAttributeTable:	public updateSpriteAttributeTable
+transferSpriteAttributeTable:		; TODO: Implement 6502 sprite flicker
 	; No need to disable interrupts since we're in VBlank
     dect	r10
 	mov		r11, *r10

@@ -46,8 +46,8 @@ clearVRAMLoop:
 
 	ret
 		
-; A value
-; DE: _dest
+; A - value
+; DE - _dest
 writeToVRAM_:	public writeToVRAM_
 	push	af
 	push	bc

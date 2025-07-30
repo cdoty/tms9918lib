@@ -64,10 +64,10 @@ clearSprites_:	public clearSprites_
 	ldy		#0
 
 clearSpritesLoop:
-	lda		#HiddenSpriteX
+	lda		#HiddenSpriteY
 	sta		(ZPDestination), y
 	iny
-	lda		#HiddenSpriteY
+	lda		#HiddenSpriteX
 	sta		(ZPDestination), y
 	iny
 	lda		#$00
@@ -79,7 +79,7 @@ clearSpritesLoop:
 	dex
 	bne		clearSpritesLoop
 
-	jsr		updateSpriteAttributeTable
+	jsr		transferSpriteAttributeTable
 	
 	rts
 
@@ -112,6 +112,7 @@ updateSprites_:	public updateSprites_
 	rts
 
 updateSpriteAttributeTable:	public updateSpriteAttributeTable
+transferSpriteAttributeTable:		; TODO: Implement 6502 sprite flicker
 	lda		#LOW(spriteTable)
 	sta		transferToVRAM_@Param0
 

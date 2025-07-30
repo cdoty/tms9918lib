@@ -34,25 +34,32 @@ activeSprites:	public activeSprites
 cseg
 
 clearSprites_:	public clearSprites_
-	ld		a, MaxSprites
-	ld		c, a
+	push	bc
+	push	de
+	push	hl
+
+	ld		b, MaxSprites
 
 	ld		hl, spriteTable
 
 clearSpriteLoop:
-	ld		(hl), HiddenSpriteX
-	inc		hl
 	ld		(hl), HiddenSpriteY
 	inc		hl
+	ld		(hl), HiddenSpriteX
+	inc		hl
 	ld		(hl), $00
 	inc		hl
 	ld		(hl), $00
 	inc		hl
 	
-	dec		c
+	dec		b
 	jr		nz, clearSpriteLoop
 	
-	call	updateSpriteAttributeTable
+	call	transferSpriteAttributeTable
+	
+	pop		hl
+	pop		de
+	pop		bc
 	
 	ret
 
@@ -100,6 +107,7 @@ updateSpriteAttributeTable:	public updateSpriteAttributeTable
 	or		a
 	jr		nz, checkFlicker
 
+transferSpriteAttributeTable:
 	; Do the normal DMA transfer to VRAM
 	ld		hl, spriteTable
 	ld		de, SpriteAttributes
@@ -217,8 +225,8 @@ selectSprite_:	public selectSprite_
 	sla		a
 	sla		a
 
-	ld		c, a
 	ld		b, 0
+	ld		c, a
 
 	ld		hl, spriteTable
 	add		hl, bc
@@ -292,6 +300,7 @@ setSpriteTileAndColor_:	public setSpriteTileAndColor_
 
 	ld		(hl), a
 	inc		hl
+	
 	ld		(hl), e
 
 	pop		hl
