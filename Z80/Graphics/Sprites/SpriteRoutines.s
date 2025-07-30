@@ -218,6 +218,7 @@ updateReverseLoop:
 	ret
 
 selectSprite_:	public selectSprite_
+	push	af
 	push	bc
 	push	hl
 
@@ -235,7 +236,8 @@ selectSprite_:	public selectSprite_
 
 	pop		hl
 	pop		bc
-	
+	pop		af
+		
 	ret
 
 ; A: Sprite X
