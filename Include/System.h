@@ -7,10 +7,10 @@ extern void disableIRQ();
 // Init random seed
 extern void initRandSeed();
 
-// Get randon value
+// Get random value
 extern byte rand();
 
-// Get randon value with limit
+// Get random value with limit
 extern byte randLimit(byte _limit);
 
 // Enable sprite magnification
