@@ -55,7 +55,7 @@ readJoystick1:	public readJoystick1
 	lda		Joystick1Buttons
 	and		#$03
 
-	sta		ZPParam1
+	sta		<ZPParam1
 
 	lda		Joystick1Direction
 	beq		readJoystick1Buttons
@@ -66,7 +66,7 @@ readJoystick1:	public readJoystick1
 	lda		joystickTable, y
 
 readJoystick1Buttons:
-	ora		ZPParam1
+	ora		<ZPParam1
 	sta		joystick1Value
 
 	rts
@@ -78,7 +78,7 @@ readJoystick2:
 	lsr		a
 	and		#$03
 
-	sta		ZPParam1
+	sta		<ZPParam1
 
 	lda		Joystick2Direction
 	beq		readJoystick2Buttons
@@ -89,7 +89,7 @@ readJoystick2:
 	lda		joystickTable, y
 
 readJoystick2Buttons:
-	ora		ZPParam1
+	ora		<ZPParam1
 	sta		joystick2Value
 
 	rts

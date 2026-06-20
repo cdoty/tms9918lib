@@ -6,9 +6,9 @@ ext	nmiHandler
 cseg
 
 _SVIENTRY:	public _SVIENTRY
-	di					; First two instructions have to be di and ld sp, $FFFF
+	di					; First two instructions have to be di and ld sp, $0000
 	
-	ld	sp, StackStart	; Setup stack
+	ld	sp, $0000		; Setup stack
 
 	jp	startup
 

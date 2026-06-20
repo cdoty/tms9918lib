@@ -2,12 +2,13 @@ include "../../Game/GameDefines.inc"
 include "../../System/SystemDefines.inc"
 include "../../System/VRAMDefines.inc"
 
-ext	vblankCount
-ext	lastVBlankCount
+ext	irqHandler
+ext	nmiHandler
+ext	nmiCount
+ext	lastNMICount
 ext	frameCount
 ext	writeVDPReg
 ext	spriteMagnificationEnabled
-ext	irqHandler
 
 cseg
 
@@ -44,10 +45,7 @@ setMode2:	public setMode2
 	ld		c, 6
 	call	writeVDPReg
 
-	ld      a, (ROMVideoFormat)			; Use a difference in ROM to determine if JAP or EUR machine. Based on code from Charlie Robson
-    and     1							; Bit one is used to determine if PAL or NTSC.
-	
-	ld		b, a						; Set background color to black
+	ld		b, $00						; Set background color to black
 	ld		c, 7
 	call	writeVDPReg
 
@@ -82,8 +80,8 @@ turnOffScreen_:	public turnOffScreen_
 enableIRQ_:	public enableIRQ_
 	; Clear nmi counts
 	xor		a
-	ld		(vblankCount), a
-	ld		(lastVBlankCount), a
+	ld		(nmiCount), a
+	ld		(lastNMICount), a
 
 	ei
 
@@ -96,16 +94,16 @@ disableIRQ_:	public disableIRQ_
 
 ; void waitForVBlank();
 waitForVBlank_:	public waitForVBlank_
-	ld		a, (lastVBlankCount)
+	ld		a, (lastNMICount)
 	ld		b, a
 
 waitVBlankLoop:
-	ld		a, (vblankCount)
+	ld		a, (nmiCount)
 	cp		b
 	
 	jr		z, waitVBlankLoop
 	
-	ld		(lastVBlankCount), a
+	ld		(lastNMICount), a
 
 	ld		a, (frameCount)
 	inc		a
@@ -114,25 +112,33 @@ waitVBlankLoop:
 	ret
 
 setupInterrupt:	public setupInterrupt
-	ld		a, 1					; Set Z80CTC channel 1 to control mode
-	out 	(CTCChannel1), a
+	; Setup interrupt locations
+	ld		hl, $38
+
+	ld		a, $C3
+	ld		(hl), a
+
+	inc		hl
 	
-	ld		hl, irqHandler			; Load VBI handler address
-	ld		(VBIAddress), hl		; Store in Z80CTC channel 3 interrupt address.
+	ld		bc, irqHandler
 
-	ret
+	ld		(hl), c
+	inc		hl
 
-setupCtrlReset:	public setupCtrlReset
-	ld		hl, resetHandler			; Load VBI handler address
-	ld		(CtrlResetHandler), hl	; Store in Z80CTC channel 3 interrupt address.
+	ld		(hl), b
 
-	ret
+	ld		hl, $66
+
+	ld		a, $C3
+	ld		(hl), a
+
+	inc		hl
 	
-setupShiftReset:	public setupShiftReset
-	ld		hl, resetHandler		; Load VBI handler address
-	ld		(ShiftResetHandler), hl	; Store in Z80CTC channel 3 interrupt address.
+	ld		bc, nmiHandler
 
+	ld		(hl), c
+	inc		hl
+
+	ld		(hl), b
+	
 	ret
-
-resetHandler:	public resetHandler
-	jp		resetHandler

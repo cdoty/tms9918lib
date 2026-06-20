@@ -34,6 +34,7 @@ updateJoysticks_:	public updateJoysticks_
 	ld		(Joystick2LastValue), a
 
 	call	readJoysticks
+	call	readKeyboard
 	
 	ret
 
@@ -49,6 +50,102 @@ readJoystick2_:	public readJoystick2_
 
 readJoysticks:
 	; readJoysticks uses register b and c
+	push	bc
+	push	de
+
+	; Enable keypad read
+	ld		a, $FF
+	out		(KeypadReadEnable), a
+
+	; Read keypad 1 data
+	in		a, (Joystick1Port)
+	
+	; Invert and isolate button 2 input
+	cpl
+	and		$40
+
+	; Shift into button 2 position
+	srl		a
+	
+	; Save result
+	ld		b, a
+
+	; Read keypad 2 data
+	in		a, (Joystick2Port)
+	
+	; Invert and isolate button 2 input
+	cpl
+	and		$40
+
+	; Shift into button 2 position
+	srl		a
+	
+	; Save result
+	ld		c, a
+
+	; Enable joystick read
+	ld		a, $FF
+	out		(JoystickReadEnable), a
+
+	; Read joystick 1 data and invert
+	in		a, (Joystick1Port)
+	cpl
+	
+	; Save input data so button 2 can be examined
+	ld		d, a
+	
+	; Get DPAD status
+	and		$0F
+	
+	; Save data
+	or		b
+	ld		b, a
+
+	; Get button 1 status and shift into button 1 position
+	ld		a, d
+	and		$40
+	srl		a
+	srl		a
+
+	; Or in saved data
+	or		b
+
+	; Store result
+	ld		(joystick1Value), a
+
+	; Read joystick 2 data and invert
+	in		a, (Joystick2Port)
+	cpl
+	
+	; Save input data so button 2 can be examined
+	ld		d, a
+
+	; Get DPAD status
+	and		$0F
+	
+	; Save data
+	or		c
+	ld		c, a
+
+	; Get button 1 status and shift into button 1 position
+	ld		a, d
+	and		$40
+	srl		a
+	srl		a
+
+	; Or in saved data
+	or		c
+
+	; Store result
+	ld		(joystick2Value), a
+
+	pop		de
+	pop		bc
+
+	ret
+
+readKeyboard:
+	; readKeyboard uses register b and c
 	push	bc
 
 	ld		a, $80
@@ -71,7 +168,7 @@ readJoysticks:
 	; Read keyboard 3 data
 	in		a, (Input3Port)
 	
-	; Invert and isolate button 2 input
+	; Invert and isolate space input
 	cpl
 	and		$04
 
@@ -79,12 +176,17 @@ readJoysticks:
 	sla		a
 	sla		a
 	
-	; Or button 2 data
+	; Or directional pad data
 	or		b
 
-	; Store result
-	ld		(joystick1Value), a
+	; Or result into joystick value
+	ld		b, a
 
+	ld		a, (joystick1Value)
+	or		b
+
+	ld		(joystick1Value), a
+	
 	pop		bc
 
 	ret

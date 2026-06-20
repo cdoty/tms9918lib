@@ -56,24 +56,24 @@ clearSprites_:	public clearSprites_
 	ldx		#MaxSprites
 
 	lda		LOW(spriteTable)
-	sta		ZPDestination
+	sta		<ZPDestination
 
 	lda		HIGH(spriteTable)
-	sta		ZPDestination + 1
+	sta		<ZPDestination + 1
 	
 	ldy		#0
 
 clearSpritesLoop:
 	lda		#HiddenSpriteY
-	sta		(ZPDestination), y
+	sta		(<ZPDestination), y
 	iny
 	lda		#HiddenSpriteX
-	sta		(ZPDestination), y
+	sta		(<ZPDestination), y
 	iny
 	lda		#$00
-	sta		(ZPDestination), y
+	sta		(<ZPDestination), y
 	iny
-	sta		(ZPDestination), y
+	sta		(<ZPDestination), y
 	iny
 
 	dex
@@ -84,19 +84,19 @@ clearSpritesLoop:
 	rts
 
 setActiveSprites_:	public setActiveSprites_
-	lda		setActiveSprites_@Param0
+	lda		<setActiveSprites_@Param0
 	sta		activeSprites
 
 	rts
 
 setStartSprite_:	public setStartSprite_
-	lda		setStartSprite_@Param0
+	lda		<setStartSprite_@Param0
 	sta		flickerModeStartSprite
 
 	rts
 
 enableFlickerMode_:	public enableFlickerMode_
-	lda		enableFlickerMode_@Param0
+	lda		<enableFlickerMode_@Param0
 	sta		flickerModeEnabled
 	
 	lda		#0
@@ -114,22 +114,22 @@ updateSprites_:	public updateSprites_
 updateSpriteAttributeTable:	public updateSpriteAttributeTable
 transferSpriteAttributeTable:		; TODO: Implement 6502 sprite flicker
 	lda		#LOW(spriteTable)
-	sta		transferToVRAM_@Param0
+	sta		<transferToVRAM_@Param0
 
 	lda		#HIGH(spriteTable)
-	sta		transferToVRAM_@Param0 + 1
+	sta		<transferToVRAM_@Param0 + 1
 
 	lda		#LOW(SpriteAttributes)
-	sta		transferToVRAM_@Param1
+	sta		<transferToVRAM_@Param1
 
 	lda		#HIGH(SpriteAttributes)
-	sta		transferToVRAM_@Param1 + 1
+	sta		<transferToVRAM_@Param1 + 1
 
 	lda		#4 * MaxSprites
-	sta		transferToVRAM_@Param2
+	sta		<transferToVRAM_@Param2
 
 	lda		#0
-	sta		transferToVRAM_@Param2 + 1
+	sta		<transferToVRAM_@Param2 + 1
 
 	jsr		transferToVRAM_
 
@@ -140,7 +140,7 @@ transferSpriteAttributeTable:		; TODO: Implement 6502 sprite flicker
 	rts
 
 selectSprite_:	public selectSprite_
-	lda		selectSprite_@Param0
+	lda		<selectSprite_@Param0
 
 	; Multiply sprite number by 4
 	asl		a
@@ -155,12 +155,12 @@ selectSprite_:	public selectSprite_
 setSpritePosition_:	public setSpritePosition_
 	ldy		selectedSprite
 	
-	lda		setSpritePosition_@Param1
+	lda		<setSpritePosition_@Param1
 	sta		spriteTable, y
 
 	iny
 
-	lda		setSpritePosition_@Param0
+	lda		<setSpritePosition_@Param0
 	sta		spriteTable, y
 
 	rts
@@ -173,7 +173,7 @@ setSpriteTile_:	public setSpriteTile_
 	iny
 	iny
 
-	lda		setSpriteTile_@Param0
+	lda		<setSpriteTile_@Param0
 	sta		spriteTable, y
 
 	rts
@@ -187,7 +187,7 @@ setSpriteColor_:	public setSpriteColor_
 	iny
 	iny
 
-	lda		setSpriteColor_@Param0
+	lda		<setSpriteColor_@Param0
 	sta		spriteTable, y
 
 	rts
@@ -201,12 +201,12 @@ setSpriteTileAndColor_:	public setSpriteTileAndColor_
 	iny
 	iny
 
-	lda		setSpriteTileAndColor_@Param0
+	lda		<setSpriteTileAndColor_@Param0
 	sta		spriteTable, y
 
 	iny
 
-	lda		setSpriteTileAndColor_@Param1
+	lda		<setSpriteTileAndColor_@Param1
 	sta		spriteTable, y
 
 	rts

@@ -1,5 +1,3 @@
-ext	startup
-
 cseg
 
 _SORDM5ENTRY:	public _SORDM5ENTRY

@@ -91,6 +91,19 @@ setStartNumericChar_:	public setStartNumericChar_
 
 	ret
 
+convertValueToAscii_:	public convertValueToAscii_
+	push	bc
+	push	de
+	push	hl
+
+	call	convertToAscii
+
+	pop		hl
+	pop		de
+	pop		bc
+
+	ret
+
 startupDelay:	public startupDelay
 	ld		bc, 0
 	
@@ -115,19 +128,6 @@ clearRam:	public clearRam
 	ld		bc,	RAMSize - 1		; Adjust the size for the loop
 	
 	ldir
-
-	ret
-
-convertValueToAscii_:	public convertValueToAscii_
-	push	bc
-	push	de
-	push	hl
-
-	call	convertToAscii
-
-	pop		hl
-	pop		de
-	pop		bc
 
 	ret
 

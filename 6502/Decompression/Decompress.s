@@ -26,21 +26,21 @@ cseg
 decompressToVRAM_:	public decompressToVRAM_
 	sei
 
-	lda		decompressToVRAM_@Param0
-	sta		HFMStart
+	lda		<decompressToVRAM_@Param0
+	sta		<HFMStart
 
-	lda		decompressToVRAM_@Param0 + 1
-	sta		HFMStart + 1
+	lda		<decompressToVRAM_@Param0 + 1
+	sta		<HFMStart + 1
 	
 	ldx		#0					; Always load file zero from compressed data
 	ldy		#0
 	
 	jsr		huffmunch_load
 
-	stx		ZPCount				; Store the uncompressed size as the count
+	stx		<ZPCount			; Store the uncompressed size as the count
 
 	iny							; Account for high byte bne branch
-	sty		ZPCount + 1
+	sty		<ZPCount + 1
 
 	; Ensure we are writing to the first byte
 ;	lda		VDPReadBase + WriteOffset
@@ -49,7 +49,7 @@ decompressToVRAM_:	public decompressToVRAM_
 	lda		decompressToVRAM_@Param1	
 	sta		VDPBase + WriteOffset
 	
-	lda		decompressToVRAM_@Param1 + 1
+	lda		<decompressToVRAM_@Param1 + 1
 	ora		#$40
 	sta		VDPBase + WriteOffset
 	
@@ -58,10 +58,10 @@ decompressToVRAMLoop:
 	
 	sta		VDPBase
 	
-	dec		ZPCount
+	dec		<ZPCount
 	bne		decompressToVRAMLoop
 	
-	dec		ZPCount + 1
+	dec		<ZPCount + 1
 	bne		decompressToVRAMLoop
 
 	cli
