@@ -50,8 +50,7 @@ readJoysticks:
 	push	bc
 	push	de
 
-	; Trigger button read
-	ld		a, 7
+	ld		a, 7						; Select ROW 7 (row 7 of PPI is joypad = default - no effect on SG-1000)
 	out		(PPIPortC), a
 
 	; Read PPI port A
@@ -112,13 +111,12 @@ readJoysticks:
 
 	ret
 
+;readKeyboard:	
+	ret
+
 setupJoysticks:	public setupJoysticks
 	; Set mode 0 for both groups, PPI ports A and B to input, and port C to output for both upper and lower parts.
 	ld		a, $92					; Config PPI (no effect on SG-1000)
 	out		(PPIPortControl), a
 
-	ld		a, 7					; Select ROW 7 (row 7 of PPI is joypad = default - no effect on SG-1000)
-	out		(PPIPortC), a
-
 	ret
-
