@@ -4,6 +4,9 @@ extern void clearJoysticks();
 // Update joysticks
 extern void updateJoysticks();
 
+// Clear joysticks
+extern void clearJoysticks();
+
 // Update keyboard. Not supported on all systems. Need to include UpdateKeyboard.s in makefile.
 extern void updateKeyboard();
 

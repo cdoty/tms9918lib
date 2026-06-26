@@ -27,7 +27,7 @@ clearJoysticks_:	public clearJoysticks_
 
 	ret
 
-updateJoysticks_:	public updateJoysticks_
+updateKeyboard_:	public updateKeyboard_
 	ld		a, (Joystick1Value)
 	ld		(Joystick1LastValue), a
 	ld		a, (Joystick2Value)
